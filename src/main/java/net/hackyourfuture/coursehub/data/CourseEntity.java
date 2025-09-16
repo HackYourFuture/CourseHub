@@ -2,12 +2,12 @@ package net.hackyourfuture.coursehub.data;
 
 import java.time.LocalDate;
 
-public class CourseEntity {
-    private Long id;
-    private String name;
-    private String description;
-    private String instructor;
-    private String duration;
-    private LocalDate startDate;
-    private LocalDate endDate;
+public record CourseEntity(
+        Long courseId,
+        String name,
+        String description,
+        Long instructorId,
+        LocalDate startDate,
+        LocalDate endDate
+) {
 }
