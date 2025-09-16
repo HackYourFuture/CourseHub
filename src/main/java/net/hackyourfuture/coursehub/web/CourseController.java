@@ -18,9 +18,6 @@ public class CourseController {
 
     @GetMapping("/courses")
     public List<CourseDto> getAllCourses() {
-        return courseService.getAllCourses()
-                .stream()
-                .map(c -> new CourseDto(c.name(), c.description(), c.instructor()))
-                .toList();
+        return courseService.getAllCourses();
     }
 }

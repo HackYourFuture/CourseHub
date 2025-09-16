@@ -1,7 +1,9 @@
 package net.hackyourfuture.coursehub.service;
 
+import net.hackyourfuture.coursehub.data.InstructorEntity;
 import net.hackyourfuture.coursehub.repository.CourseRepository;
-import net.hackyourfuture.coursehub.service.model.Course;
+import net.hackyourfuture.coursehub.repository.InstructorRepository;
+import net.hackyourfuture.coursehub.web.model.CourseDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,17 +11,21 @@ import java.util.List;
 @Service
 public class CourseService {
     private final CourseRepository courseRepository;
+    private final InstructorRepository instructorRepository;
 
-    public CourseService(CourseRepository courseRepository) {
+    public CourseService(CourseRepository courseRepository, InstructorRepository instructorRepository) {
         this.courseRepository = courseRepository;
+        this.instructorRepository = instructorRepository;
     }
 
-    public List<Course> getAllCourses() {
+    public List<CourseDto> getAllCourses() {
         return courseRepository.findAll()
                 .stream()
-                // TODO: add instructor name from repository
-                .map(c -> new Course(c.name(), c.description(), "unknown"))
+                .map(c -> {
+                    InstructorEntity instructor = instructorRepository.findById(c.instructorId());
+                    String instructorName = instructor.firstName() + " " + instructor.lastName();
+                    return new CourseDto(c.name(), c.description(), instructorName);
+                })
                 .toList();
     }
 }
-

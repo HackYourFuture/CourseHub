@@ -1,6 +1,9 @@
 # CourseHub
 
-A modern Java reference app for courses, enrollments, and school workflows.
+A modern reference application that resembles a school administration system to manage courses, enrollments, etc.
+This application is used in HackYourFuture to showcase best practices in building a full-stack application and for
+students to implement parts. For example, in the frontend course create their own frontend and in the backend course
+create their own backend in Java.
 
 ## Getting started
 
@@ -8,7 +11,7 @@ A modern Java reference app for courses, enrollments, and school workflows.
 
 * Java 21 or later
 * Docker
-* VSCode or Intellij IDEA
+* Any IDE: we recommend VSCode or Intellij IDEA
 
 ### Running the application
 
