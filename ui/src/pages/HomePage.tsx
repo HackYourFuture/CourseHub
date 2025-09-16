@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import './App.css'
+import '../App.css'
 
-function App() {
+function HomePage() {
     const [courses, setCourses] = useState([])
 
     useEffect(() => {
@@ -47,4 +47,4 @@ function App() {
     );
 }
 
-export default App
+export default HomePage
