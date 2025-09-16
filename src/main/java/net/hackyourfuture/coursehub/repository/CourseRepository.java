@@ -2,6 +2,7 @@ package net.hackyourfuture.coursehub.repository;
 
 import net.hackyourfuture.coursehub.data.CourseEntity;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -41,9 +42,9 @@ public class CourseRepository {
 
     public void insertCourse(CourseEntity course) {
         String sql = """
-           INSERT INTO course (name, description, instructor_id, start_date, end_date)\
-            VALUES (:name, :description, :instructorId, :startDate, :endDate)
-           """;
+                INSERT INTO course (name, description, instructor_id, start_date, end_date)\
+                 VALUES (:name, :description, :instructorId, :startDate, :endDate)
+                """;
         jdbcTemplate.update(sql, Map.of(
                 "name", course.name(),
                 "description", course.description(),
