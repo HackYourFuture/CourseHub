@@ -1,17 +1,21 @@
 # CourseHub
 
 A modern reference application that resembles a school administration system to manage courses, enrollments, etc.
+
 This application is used in HackYourFuture to showcase best practices in building a full-stack application and for
-students to implement parts. For example, in the frontend course create their own frontend and in the backend course
-create their own backend in Java.
+students to implement parts. For example, in the frontend course students create their own frontend and in the backend
+course create their own backend in Java.
 
 ## Getting started
 
 ### Requirements
 
-* Java 21 or later
-* Docker
-* Any IDE: we recommend VSCode or Intellij IDEA
+Make sure to have the following installed:
+
+* [Java 21 or later](https://adoptium.net/temurin/releases)
+* [Docker](https://www.docker.com/products/docker-desktop/)
+* Any IDE: We recommend [VSCode](https://code.visualstudio.com/download)
+  or [Intellij IDEA](https://www.jetbrains.com/idea/download/?section=mac)
 
 ### Running the application
 
@@ -28,4 +32,4 @@ Starting the application:
 
 ### Making requests
 
-The application runs on `http://localhost:8080`.
+The application is accessible on `http://localhost:8080`.
