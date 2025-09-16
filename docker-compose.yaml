@@ -10,3 +10,16 @@ services:
       POSTGRES_DB: coursehub
     ports:
       - "5432:5432"
+  course-hub:
+    image: course-hub:0.0.1-SNAPSHOT
+    container_name: course-hub
+    profiles:
+      - include-course-hub
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/coursehub
+    depends_on:
+      postgres:
+        condition: service_started
+    ports:
+      - "8080:8080"
+

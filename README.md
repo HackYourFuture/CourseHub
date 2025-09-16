@@ -33,3 +33,14 @@ Starting the application:
 ### Making requests
 
 The application is accessible on `http://localhost:8080`.
+
+### Building docker image
+
+```bash
+./gradlew bootBuildImage
+```
+
+#### Running docker image
+```bash
+docker compose --profile include-course-hub up
+```
