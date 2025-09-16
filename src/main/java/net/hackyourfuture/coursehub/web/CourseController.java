@@ -1,9 +1,7 @@
 package net.hackyourfuture.coursehub.web;
 
-import net.hackyourfuture.coursehub.repository.CourseRepository;
 import net.hackyourfuture.coursehub.service.CourseService;
 import net.hackyourfuture.coursehub.web.model.CourseDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
