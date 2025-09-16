@@ -27,4 +27,18 @@ public class InstructorRepository {
                 )
         );
     }
+
+    public void insertInstructor(InstructorEntity instructor) {
+        String sql = """
+                     INSERT INTO instructor (first_name, last_name, email)
+                     VALUES (:firstName, :lastName, :email)
+                     """;
+        jdbcTemplate.update(
+                sql, Map.of(
+                        "firstName", instructor.firstName(),
+                        "lastName", instructor.lastName(),
+                        "email", instructor.email()
+                )
+        );
+    }
 }
