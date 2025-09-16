@@ -15,8 +15,8 @@ public class CourseRepository {
     }
 
     public List<CourseEntity> findAll() {
-        String sql = "SELECT * FROM courses";
-        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+        String sql = "SELECT * FROM course";
+        return jdbcTemplate.query(sql, (rs, rowNumber) -> {
             CourseEntity course = new CourseEntity();
             return course;
         });
