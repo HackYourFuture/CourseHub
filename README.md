@@ -8,16 +8,34 @@ course create their own backend in Java.
 
 ## Getting started
 
-### Requirements
+### Prerequisites
 
-Make sure to have the following installed:
+Make sure to have the following installed, for the frontend application:
+
+* [Node.js 22 or later](https://nodejs.org/en/download)
+
+Make sure to have the following installed, for backend application:
 
 * [Java 21 or later](https://adoptium.net/temurin/releases)
 * [Docker](https://www.docker.com/products/docker-desktop/)
 * Any IDE: We recommend [VSCode](https://code.visualstudio.com/download)
-  or [Intellij IDEA](https://www.jetbrains.com/idea/download/?section=mac)
+  or [IntelliJ IDEA](https://www.jetbrains.com/idea/download/?section=mac)
 
-### Running the application
+### Running the frontend
+
+To install the required dependencies (only once), from the `ui` directory, run:
+
+```bash 
+    npm install
+```
+
+To run the frontend application locally, from the `ui` directory, run:
+
+```bash
+    npm run dev
+```
+
+### Running the backend
 
 Starting Postgres database container:
 
@@ -25,7 +43,7 @@ Starting Postgres database container:
 docker compose up -d
 ```
 
-Starting the application:
+To run the backend application:
 
 * From Gradle: `./gradlew bootRun`
 * From IDE: Run the `CourseHubApplication` main class.
