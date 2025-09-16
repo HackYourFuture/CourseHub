@@ -6,5 +6,5 @@ CREATE TABLE course
     instructor_id BIGINT       REFERENCES instructor (instructor_id) ON DELETE SET NULL,
     start_date    DATE,
     end_date      DATE,
-    max_students  INT CHECK (max_students > 0)
+    max_enrollments  INT CHECK (max_enrollments > 0)
 );

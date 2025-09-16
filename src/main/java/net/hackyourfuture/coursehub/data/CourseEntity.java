@@ -3,11 +3,10 @@ package net.hackyourfuture.coursehub.data;
 import java.time.LocalDate;
 
 public record CourseEntity(
-        Long courseId,
+        Integer courseId,
         String name,
         String description,
-        Long instructorId,
+        Integer instructorId,
         LocalDate startDate,
-        LocalDate endDate
-) {
-}
+        LocalDate endDate,
+        Integer maxEnrollments) {}

@@ -30,7 +30,7 @@ VALUES ('Alan', 'Murray', 'alan@example.com'),
        ('Edward', 'Lane', 'edward@example.com');
 
 -- Courses
-INSERT INTO course (name, description, instructor_id, start_date, end_date, max_students)
+INSERT INTO course (name, description, instructor_id, start_date, end_date, max_enrollments)
 VALUES ('Introduction to Calculus', 'Fundamental concepts of calculus including limits, derivatives, and integrals.', 1,
         '2024-09-01', '2024-12-15', 30),
        ('General Physics I', 'Mechanics, motion, energy, and basic physical laws.', 2, '2024-09-01', '2024-12-15', 28),

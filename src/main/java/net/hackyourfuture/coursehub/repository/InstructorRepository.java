@@ -10,7 +10,7 @@ import java.util.Map;
 @Repository
 public class InstructorRepository {
     public static final RowMapper<InstructorEntity> INSTRUCTOR_ROW_MAPPER = (rs, rowNum) -> new InstructorEntity(
-            rs.getLong("instructor_id"),
+            rs.getInt("instructor_id"),
             rs.getString("first_name"),
             rs.getString("last_name"),
             rs.getString("email")
@@ -21,7 +21,7 @@ public class InstructorRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public InstructorEntity findById(Long instructorId) {
+    public InstructorEntity findById(Integer instructorId) {
         String sql = "SELECT * FROM instructor WHERE instructor_id = :instructorId";
         return jdbcTemplate.queryForObject(sql, Map.of("instructorId", instructorId), INSTRUCTOR_ROW_MAPPER);
     }

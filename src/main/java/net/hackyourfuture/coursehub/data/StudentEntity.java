@@ -1,7 +1,7 @@
 package net.hackyourfuture.coursehub.data;
 
 public record StudentEntity(
-        Long studentId,
+        Integer studentId,
         String firstName,
         String lastName,
         String email

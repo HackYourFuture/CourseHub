@@ -1,35 +1,50 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useEffect, useState } from 'react'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+    const [courses, setCourses] = useState([])
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    useEffect(() => {
+        fetch('http://localhost:8080/courses')
+            .then(res => res.json())
+            .then(data => setCourses(data))
+            .catch(err => console.error('Error fetching courses:', err))
+    }, [])
+
+    return (
+        <div className="max-w-5xl mx-auto mt-10">
+            <h1 className="text-4xl font-extrabold mb-8 text-gray-800">Courses</h1>
+            <div className="overflow-x-auto">
+                <table className="min-w-full bg-white rounded-2xl shadow-xl border border-gray-100">
+                    <thead>
+                    <tr>
+                        <th className="px-6 py-4 text-left font-semibold text-gray-600 bg-gray-50 rounded-tl-2xl">Name</th>
+                        <th className="px-6 py-4 text-left font-semibold text-gray-600 bg-gray-50">Description</th>
+                        <th className="px-6 py-4 text-left font-semibold text-gray-600 bg-gray-50">Instructor</th>
+                        <th className="px-6 py-4 text-left font-semibold text-gray-600 bg-gray-50">Start Date</th>
+                        <th className="px-6 py-4 text-left font-semibold text-gray-600 bg-gray-50">End Date</th>
+                        <th className="px-6 py-4 text-left font-semibold text-gray-600 bg-gray-50 rounded-tr-2xl">Max Students</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {courses.map((course, idx) => (
+                        <tr
+                            key={course.id}
+                            className={`border-t transition ${idx % 2 === 0 ? 'bg-gray-50' : 'bg-white'} hover:bg-blue-50`}
+                        >
+                            <td className="px-6 py-4 text-gray-700">{course.name}</td>
+                            <td className="px-6 py-4 text-gray-700">{course.description}</td>
+                            <td className="px-6 py-4 text-gray-700">{course.instructor}</td>
+                            <td className="px-6 py-4 text-gray-700">{course.startDate}</td>
+                            <td className="px-6 py-4 text-gray-700">{course.endDate}</td>
+                            <td className={`px-6 py-4 text-gray-700 ${idx === courses.length - 1 ? 'rounded-b-2xl' : ''}`}>{course.maxEnrollments}</td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    );
 }
 
 export default App

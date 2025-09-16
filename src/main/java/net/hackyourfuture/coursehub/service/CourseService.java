@@ -19,12 +19,12 @@ public class CourseService {
     }
 
     public List<CourseDto> getAllCourses() {
-        return courseRepository.findAll()
-                .stream()
+        return courseRepository.findAll().stream()
                 .map(c -> {
                     InstructorEntity instructor = instructorRepository.findById(c.instructorId());
                     String instructorName = instructor.firstName() + " " + instructor.lastName();
-                    return new CourseDto(c.name(), c.description(), instructorName);
+                    return new CourseDto(
+                            c.name(), c.description(), instructorName, c.startDate(), c.endDate(), c.maxEnrollments());
                 })
                 .toList();
     }

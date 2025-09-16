@@ -3,9 +3,9 @@ package net.hackyourfuture.coursehub.data;
 import java.time.LocalDate;
 
 public record EnrollmentEntity(
-        Long enrollmentId,
-        Long studentId,
-        Long courseId,
+        Integer enrollmentId,
+        Integer studentId,
+        Integer courseId,
         LocalDate enrollmentDate
 ) {
 }

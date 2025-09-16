@@ -12,13 +12,13 @@ import java.util.Map;
 @Repository
 public class CourseRepository {
     public static final RowMapper<CourseEntity> COURSE_ROW_MAPPER = (rs, rowNumber) -> new CourseEntity(
-            rs.getLong("course_id"),
+            rs.getInt("course_id"),
             rs.getString("name"),
             rs.getString("description"),
-            rs.getLong("instructor_id"),
+            rs.getInt("instructor_id"),
             rs.getObject("start_date", LocalDate.class),
-            rs.getObject("end_date", LocalDate.class)
-    );
+            rs.getObject("end_date", LocalDate.class),
+            rs.getInt("max_enrollments"));
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public CourseRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -36,18 +36,19 @@ public class CourseRepository {
     }
 
     public void insertCourse(CourseEntity course) {
-        String sql = """
-                     INSERT INTO course (name, description, instructor_id, start_date, end_date)
-                     VALUES (:name, :description, :instructorId, :startDate, :endDate)
+        String sql =
+                """
+                     INSERT INTO course (name, description, instructor_id, start_date, end_date, max_enrollments)
+                     VALUES (:name, :description, :instructorId, :startDate, :endDate, :maxEnrollments)
                      """;
         jdbcTemplate.update(
-                sql, Map.of(
+                sql,
+                Map.of(
                         "name", course.name(),
                         "description", course.description(),
                         "instructorId", course.instructorId(),
                         "startDate", course.startDate(),
-                        "endDate", course.endDate()
-                )
-        );
+                        "endDate", course.endDate(),
+                        "maxEnrollments", course.maxEnrollments()));
     }
 }
