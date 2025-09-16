@@ -36,11 +36,14 @@ The application is accessible on `http://localhost:8080`.
 
 ### Building docker image
 
+To build a Docker image of the application, run the following command:
 ```bash
 ./gradlew bootBuildImage
 ```
 
 #### Running docker image
+
+After the image is built, you can run it using a special Docker Compose profile _(make sure you stop the application if you're running it from Gradle or IDE)_:
 ```bash
 docker compose --profile include-course-hub up
 ```
