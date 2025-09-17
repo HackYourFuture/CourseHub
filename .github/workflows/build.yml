@@ -35,6 +35,9 @@ jobs:
           java-version: '21'
           cache: 'gradle'
 
+      - name: Set up docker compose environment
+        run: docker compose up -d
+
       - name: Build
         run: ./gradlew build
 

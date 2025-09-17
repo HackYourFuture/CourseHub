@@ -44,5 +44,5 @@ jobs:
         env:
           DOCKER_PUSH: true
         run: ./gradlew \
-          -Pversion=${GITHUB_REF_NAME#v:-"${{ github.event.inputs.version }}"} \
+          -Pversion=${"${{ github.event.inputs.version }}":-${GITHUB_REF_NAME#v}} \
           bootBuildImage

@@ -5,7 +5,9 @@ plugins {
 }
 
 group = 'net.hackyourfuture'
-version = '0.0.1-SNAPSHOT'
+if (version == 'unspecified') {
+    version = '0.0.1-SNAPSHOT'
+}
 description = 'A modern Java reference app for courses, enrollments, and school workflows.'
 
 java {
