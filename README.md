@@ -65,3 +65,9 @@ After the image is built, you can run it using a special Docker Compose profile 
 ```bash
 docker compose --profile include-course-hub up
 ```
+
+### Cleanup
+
+Keep in mind that containers will keep running in the background even after you stop the application. To stop and remove the containers, run:
+```bash
+docker compose --profile include-course-hub down -v

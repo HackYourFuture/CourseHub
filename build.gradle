@@ -44,3 +44,9 @@ test {
     }
     jvmArgs.add("-javaagent:${configurations.mockitoAgent.asPath}")
 }
+
+tasks.named("bootBuildImage") {
+    imageName.set("ghcr.io/hackyourfuture/course-hub-backend")
+    tags.set(["ghcr.io/hackyourfuture/course-hub-backend:" + version])
+    publish.set(System.getenv("DOCKER_PUSH")?.toBoolean() ?: false)
+}
