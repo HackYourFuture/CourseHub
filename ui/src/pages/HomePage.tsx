@@ -8,7 +8,7 @@ function HomePage() {
     useEffect(() => {
         fetch('http://localhost:8080/courses')
             .then(res => res.json())
-            .then(data => setCourses(data))
+            .then(data => setCourses(data.courses))
             .catch(err => console.error('Error fetching courses:', err))
     }, [])
 

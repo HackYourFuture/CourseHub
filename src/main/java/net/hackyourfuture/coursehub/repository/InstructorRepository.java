@@ -26,17 +26,20 @@ public class InstructorRepository {
         return jdbcTemplate.queryForObject(sql, Map.of("instructorId", instructorId), INSTRUCTOR_ROW_MAPPER);
     }
 
-    public void insertInstructor(InstructorEntity instructor) {
+    public InstructorEntity insertInstructor(InstructorEntity instructor) {
         String sql = """
                      INSERT INTO instructor (first_name, last_name, email)
                      VALUES (:firstName, :lastName, :email)
+                     RETURNING *;
                      """;
-        jdbcTemplate.update(
+        return jdbcTemplate.queryForObject(
                 sql, Map.of(
                         "firstName", instructor.firstName(),
                         "lastName", instructor.lastName(),
                         "email", instructor.email()
-                )
+                ),
+                INSTRUCTOR_ROW_MAPPER
         );
+
     }
 }

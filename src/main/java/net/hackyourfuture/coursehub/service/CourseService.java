@@ -22,6 +22,9 @@ public class CourseService {
         return courseRepository.findAll().stream()
                 .map(c -> {
                     InstructorEntity instructor = instructorRepository.findById(c.instructorId());
+                    if (instructor == null) {
+                        throw new IllegalStateException("Instructor with id " + c.instructorId() + " not found");
+                    }
                     String instructorName = instructor.firstName() + " " + instructor.lastName();
                     return new CourseDto(
                             c.name(), c.description(), instructorName, c.startDate(), c.endDate(), c.maxEnrollments());

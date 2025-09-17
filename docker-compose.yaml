@@ -10,6 +10,18 @@ services:
       POSTGRES_DB: coursehub
     ports:
       - "5432:5432"
+  course-hub-ui:
+    image: node:alpine
+    container_name: course-hub-ui
+    entrypoint: /bin/sh
+    ports:
+      - 8000:8000
+    working_dir: /srv/app
+    volumes:
+      - type: bind
+        source: ./ui
+        target: /srv/app
+    tty: true
   course-hub:
     image: course-hub:0.0.1-SNAPSHOT
     container_name: course-hub

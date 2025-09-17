@@ -38,5 +38,9 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    testLogging {
+        beforeTest { event -> println("Running test: ${event.displayName}") }
+        afterTest { event, result -> println("Finished test: ${event.displayName} - ${result}") }
+    }
     jvmArgs.add("-javaagent:${configurations.mockitoAgent.asPath}")
 }
