@@ -1,52 +1,85 @@
--- Students
-INSERT INTO student (first_name, last_name, email)
-VALUES ('Alice', 'Smith', 'alice1@example.com'),
-       ('Bob', 'Johnson', 'bob2@example.com'),
-       ('Carol', 'Lee', 'carol3@example.com'),
-       ('David', 'Kim', 'david4@example.com'),
-       ('Eva', 'Brown', 'eva5@example.com'),
-       ('Frank', 'White', 'frank6@example.com'),
-       ('Grace', 'Green', 'grace7@example.com'),
-       ('Henry', 'Black', 'henry8@example.com'),
-       ('Ivy', 'Young', 'ivy9@example.com'),
-       ('Jack', 'Hall', 'jack10@example.com'),
-       ('Kara', 'King', 'kara11@example.com'),
-       ('Liam', 'Scott', 'liam12@example.com'),
-       ('Mia', 'Adams', 'mia13@example.com'),
-       ('Noah', 'Baker', 'noah14@example.com'),
-       ('Olivia', 'Clark', 'olivia15@example.com'),
-       ('Paul', 'Davis', 'paul16@example.com'),
-       ('Quinn', 'Evans', 'quinn17@example.com'),
-       ('Ruby', 'Foster', 'ruby18@example.com'),
-       ('Sam', 'Gray', 'sam19@example.com'),
-       ('Tina', 'Harris', 'tina20@example.com');
+-- User accounts for students. All passwords are the same: 'password123' hashed
+INSERT INTO user_account (password_hash, email_address, role)
+VALUES ('$2a$10$JPQ/pnZqC8efUOi3M9ZqReeNDR7IkA1Ry973r.IK020zHSuP4P.KC', 'alice1@example.com', 'student'),
+       ('$2a$10$JPQ/pnZqC8efUOi3M9ZqReeNDR7IkA1Ry973r.IK020zHSuP4P.KC', 'bob2@example.com', 'student'),
+       ('$2a$10$JPQ/pnZqC8efUOi3M9ZqReeNDR7IkA1Ry973r.IK020zHSuP4P.KC', 'carol3@example.com', 'student'),
+       ('$2a$10$JPQ/pnZqC8efUOi3M9ZqReeNDR7IkA1Ry973r.IK020zHSuP4P.KC', 'david4@example.com', 'student'),
+       ('$2a$10$JPQ/pnZqC8efUOi3M9ZqReeNDR7IkA1Ry973r.IK020zHSuP4P.KC', 'eva5@example.com', 'student'),
+       ('$2a$10$JPQ/pnZqC8efUOi3M9ZqReeNDR7IkA1Ry973r.IK020zHSuP4P.KC', 'frank6@example.com', 'student'),
+       ('$2a$10$JPQ/pnZqC8efUOi3M9ZqReeNDR7IkA1Ry973r.IK020zHSuP4P.KC', 'grace7@example.com', 'student'),
+       ('$2a$10$JPQ/pnZqC8efUOi3M9ZqReeNDR7IkA1Ry973r.IK020zHSuP4P.KC', 'henry8@example.com', 'student'),
+       ('$2a$10$JPQ/pnZqC8efUOi3M9ZqReeNDR7IkA1Ry973r.IK020zHSuP4P.KC', 'ivy9@example.com', 'student'),
+       ('$2a$10$JPQ/pnZqC8efUOi3M9ZqReeNDR7IkA1Ry973r.IK020zHSuP4P.KC', 'jack10@example.com', 'student'),
+       ('$2a$10$JPQ/pnZqC8efUOi3M9ZqReeNDR7IkA1Ry973r.IK020zHSuP4P.KC', 'kara11@example.com', 'student'),
+       ('$2a$10$JPQ/pnZqC8efUOi3M9ZqReeNDR7IkA1Ry973r.IK020zHSuP4P.KC', 'liam12@example.com', 'student'),
+       ('$2a$10$JPQ/pnZqC8efUOi3M9ZqReeNDR7IkA1Ry973r.IK020zHSuP4P.KC', 'mia13@example.com', 'student'),
+       ('$2a$10$JPQ/pnZqC8efUOi3M9ZqReeNDR7IkA1Ry973r.IK020zHSuP4P.KC', 'noah14@example.com', 'student'),
+       ('$2a$10$JPQ/pnZqC8efUOi3M9ZqReeNDR7IkA1Ry973r.IK020zHSuP4P.KC', 'olivia15@example.com', 'student'),
+       ('$2a$10$JPQ/pnZqC8efUOi3M9ZqReeNDR7IkA1Ry973r.IK020zHSuP4P.KC', 'paul16@example.com', 'student'),
+       ('$2a$10$JPQ/pnZqC8efUOi3M9ZqReeNDR7IkA1Ry973r.IK020zHSuP4P.KC', 'quinn17@example.com', 'student'),
+       ('$2a$10$JPQ/pnZqC8efUOi3M9ZqReeNDR7IkA1Ry973r.IK020zHSuP4P.KC', 'ruby18@example.com', 'student'),
+       ('$2a$10$JPQ/pnZqC8efUOi3M9ZqReeNDR7IkA1Ry973r.IK020zHSuP4P.KC', 'sam19@example.com', 'student'),
+       ('$2a$10$JPQ/pnZqC8efUOi3M9ZqReeNDR7IkA1Ry973r.IK020zHSuP4P.KC', 'tina20@example.com', 'student'),
+       ('$2a$10$JPQ/pnZqC8efUOi3M9ZqReeNDR7IkA1Ry973r.IK020zHSuP4P.KC', 'alan@example.com', 'instructor'),
+       ('$2a$10$JPQ/pnZqC8efUOi3M9ZqReeNDR7IkA1Ry973r.IK020zHSuP4P.KC', 'brenda@example.com', 'instructor'),
+       ('$2a$10$JPQ/pnZqC8efUOi3M9ZqReeNDR7IkA1Ry973r.IK020zHSuP4P.KC', 'charles@example.com', 'instructor'),
+       ('$2a$10$JPQ/pnZqC8efUOi3M9ZqReeNDR7IkA1Ry973r.IK020zHSuP4P.KC', 'diana@example.com', 'instructor'),
+       ('$2a$10$JPQ/pnZqC8efUOi3M9ZqReeNDR7IkA1Ry973r.IK020zHSuP4P.KC', 'edward@example.com', 'instructor');
+
+
+-- Students (with user_id references)
+INSERT INTO student (student_id, first_name, last_name, enrollment_date)
+VALUES (1, 'Alice', 'Smith', '2023-09-01'),
+       (2, 'Bob', 'Johnson', '2023-09-01'),
+       (3, 'Carol', 'Lee', '2023-09-01'),
+       (4, 'David', 'Kim', '2023-09-01'),
+       (5, 'Eva', 'Brown', '2023-09-01'),
+       (6, 'Frank', 'White', '2023-09-01'),
+       (7, 'Grace', 'Green', '2023-09-01'),
+       (8, 'Henry', 'Black', '2023-09-01'),
+       (9, 'Ivy', 'Young', '2023-09-01'),
+       (10, 'Jack', 'Hall', '2023-09-01'),
+       (11, 'Kara', 'King', '2023-09-01'),
+       (12, 'Liam', 'Scott', '2023-09-01'),
+       (13, 'Mia', 'Adams', '2023-09-01'),
+       (14, 'Noah', 'Baker', '2023-09-01'),
+       (15, 'Olivia', 'Clark', '2023-09-01'),
+       (16, 'Paul', 'Davis', '2023-09-01'),
+       (17, 'Quinn', 'Evans', '2023-09-01'),
+       (18, 'Ruby', 'Foster', '2023-09-01'),
+       (19, 'Sam', 'Gray', '2023-09-01'),
+       (20, 'Tina', 'Harris', '2023-09-01');
+
 
 -- Instructors
-INSERT INTO instructor (first_name, last_name, email)
-VALUES ('Alan', 'Murray', 'alan@example.com'),
-       ('Brenda', 'Stone', 'brenda@example.com'),
-       ('Charles', 'Ford', 'charles@example.com'),
-       ('Diana', 'Wells', 'diana@example.com'),
-       ('Edward', 'Lane', 'edward@example.com');
+INSERT INTO instructor (instructor_id, first_name, last_name, hire_date)
+VALUES (21, 'Alan', 'Murray', '2021-04-01'),
+       (22, 'Brenda', 'Stone', '2023-09-01'),
+       (23, 'Charles', 'Ford', '2020-01-01'),
+       (24, 'Diana', 'Wells', '2019-02-01'),
+       (25, 'Edward', 'Lane', '2018-03-01');
 
 -- Courses
 INSERT INTO course (name, description, instructor_id, start_date, end_date, max_enrollments)
-VALUES ('Introduction to Calculus', 'Fundamental concepts of calculus including limits, derivatives, and integrals.', 1,
+VALUES ('Introduction to Calculus', 'Fundamental concepts of calculus including limits, derivatives, and integrals.',
+        21,
         '2024-09-01', '2024-12-15', 30),
-       ('General Physics I', 'Mechanics, motion, energy, and basic physical laws.', 2, '2024-09-01', '2024-12-15', 28),
-       ('Organic Chemistry', 'Structure, properties, and reactions of organic compounds.', 3, '2024-09-01',
+       ('General Physics I', 'Mechanics, motion, energy, and basic physical laws.', 22, '2024-09-01', '2024-12-15', 28),
+       ('Organic Chemistry', 'Structure, properties, and reactions of organic compounds.', 23, '2024-09-01',
         '2024-12-15', 25),
-       ('Human Biology', 'Overview of human anatomy, physiology, and genetics.', 4, '2024-09-01', '2024-12-15', 32),
-       ('World History: 1500-Present', 'Major global events and trends from 1500 to the present.', 5, '2024-09-01',
+       ('Human Biology', 'Overview of human anatomy, physiology, and genetics.', 24, '2024-09-01', '2024-12-15', 32),
+       ('World History: 1500-Present', 'Major global events and trends from 1500 to the present.', 25, '2024-09-01',
         '2024-12-15', 50),
-       ('British Literature', 'Study of classic and modern British literary works.', 1, '2024-09-01', '2024-12-15', 22),
-       ('Fundamentals of Drawing', 'Techniques and principles of drawing for beginners.', 2, '2024-09-01', '2024-12-15',
+       ('British Literature', 'Study of classic and modern British literary works.', 21, '2024-09-01', '2024-12-15',
+        22),
+       ('Fundamentals of Drawing', 'Techniques and principles of drawing for beginners.', 22, '2024-09-01',
+        '2024-12-15',
         18),
-       ('Music Theory and Composition', 'Basics of music theory and introductory composition.', 3, '2024-09-01',
+       ('Music Theory and Composition', 'Basics of music theory and introductory composition.', 23, '2024-09-01',
         '2024-12-15', 20),
-       ('Introduction to Programming with Java', 'Core Java programming concepts and hands-on projects.', 4,
+       ('Introduction to Programming with Java', 'Core Java programming concepts and hands-on projects.', 24,
         '2024-09-01', '2024-12-15', 35),
-       ('Principles of Microeconomics', 'Microeconomic theory, market structures, and consumer behavior.', 5,
+       ('Principles of Microeconomics', 'Microeconomic theory, market structures, and consumer behavior.', 25,
         '2024-09-01', '2024-12-15', 18);
 
 -- Enrollments

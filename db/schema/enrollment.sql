@@ -1,3 +1,4 @@
+-- An enrollment is a student taking a course.
 CREATE TABLE enrollment
 (
     enrollment_id   INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
