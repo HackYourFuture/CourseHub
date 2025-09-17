@@ -32,6 +32,9 @@ public class UserAuthenticationController {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(request.emailAddress(), request.password()));
             UserAccountEntity user = userAccountRepository.findByEmailAddress(request.emailAddress());
+            if (user == null) {
+                return new LoginResponse(null, false, "No user found for provided email address");
+            }
             return new LoginResponse(user.userId(), authentication.isAuthenticated(), null);
         } catch (AuthenticationException e) {
             if (e instanceof BadCredentialsException) {

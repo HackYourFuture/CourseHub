@@ -21,7 +21,7 @@ public class UserAuthenticationService implements UserDetailsService {
     public UserDetails loadUserByUsername(String emailAddress) throws UsernameNotFoundException {
         UserAccountEntity user = userAccountRepository.findByEmailAddress(emailAddress);
         if (user == null) {
-            throw new UsernameNotFoundException("No user found for provided email address");
+            throw new UsernameNotFoundException("No user found for provided emailAddress address");
         }
         return new org.springframework.security.core.userdetails.User(
                 user.emailAddress(),

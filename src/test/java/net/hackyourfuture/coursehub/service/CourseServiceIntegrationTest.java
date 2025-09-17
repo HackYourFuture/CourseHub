@@ -1,7 +1,6 @@
 package net.hackyourfuture.coursehub.service;
 
 import net.hackyourfuture.coursehub.data.CourseEntity;
-import net.hackyourfuture.coursehub.data.InstructorEntity;
 import net.hackyourfuture.coursehub.repository.CourseRepository;
 import net.hackyourfuture.coursehub.repository.InstructorRepository;
 import net.hackyourfuture.coursehub.web.model.CourseDto;
@@ -34,37 +33,37 @@ class CourseServiceIntegrationTest {
 
     @Autowired
     private CourseRepository courseRepository;
+
     @Autowired
     private InstructorRepository instructorRepository;
+
     @Autowired
     private CourseService courseService;
 
     @BeforeEach
     void setUp() {
-        var instructor1 = instructorRepository.insertInstructor(new InstructorEntity(
-                null,
-                "Test",
-                "Instructor 1",
-                "test1@test.com"
-        ));
-        var instructor2 = instructorRepository.insertInstructor(new InstructorEntity(
-                null,
-                "Test",
-                "Instructor 2",
-                "test2@test.com"
-        ));
+        var instructor1 =
+                instructorRepository.insertInstructor("Artur", "Havliukovskyi", "artur@example.com", "passwordHash");
+        var instructor2 =
+                instructorRepository.insertInstructor("Breus", "Blaauwendraad", "breus@example.com", "passwordHash");
 
-        courseRepository.insertCourse(
-                new CourseEntity(
-                        null, "Test Course 1", "Description 1", instructor1.instructorId(),
-                        LocalDate.now(), LocalDate.now().plusDays(30), 30
-                ));
+        courseRepository.insertCourse(new CourseEntity(
+                null,
+                "Test Course 1",
+                "Description 1",
+                instructor1.instructorId(),
+                LocalDate.now(),
+                LocalDate.now().plusDays(30),
+                30));
 
-        courseRepository.insertCourse(
-                new CourseEntity(
-                        null, "Test Course 2", "Description 2", instructor2.instructorId(),
-                        LocalDate.now(), LocalDate.now().plusDays(60), 50
-                ));
+        courseRepository.insertCourse(new CourseEntity(
+                null,
+                "Test Course 2",
+                "Description 2",
+                instructor2.instructorId(),
+                LocalDate.now(),
+                LocalDate.now().plusDays(60),
+                50));
     }
 
     @Test
@@ -75,18 +74,16 @@ class CourseServiceIntegrationTest {
                 .contains(new CourseDto(
                         "Test Course 1",
                         "Description 1",
-                        "Test Instructor 1",
+                        "Artur Havliukovskyi",
                         LocalDate.now(),
                         LocalDate.now().plusDays(30),
-                        30
-                ))
+                        30))
                 .contains(new CourseDto(
                         "Test Course 2",
                         "Description 2",
-                        "Test Instructor 2",
+                        "Breus Blaauwendraad",
                         LocalDate.now(),
                         LocalDate.now().plusDays(60),
-                        50
-                ));
+                        50));
     }
 }
