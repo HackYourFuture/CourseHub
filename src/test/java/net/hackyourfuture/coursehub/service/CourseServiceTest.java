@@ -35,20 +35,20 @@ class CourseServiceTest {
         CourseService courseService = new CourseService(courseRepository, instructorRepository);
 
         when(courseRepository.findAll()).thenReturn(List.of(
-            new CourseEntity(1L, "Testing course", "A course about testing", 1L, LocalDate.of(2026, Month.JANUARY, 15), LocalDate.of(2026, Month.MARCH, 1)),
-            new CourseEntity(2L, "Spring course", "A course about using Spring Boot", 2L, LocalDate.of(2026, Month.MAY, 1), LocalDate.of(2026, Month.SEPTEMBER, 1))
+            new CourseEntity(1, "Testing course", "A course about testing", 1, LocalDate.of(2026, Month.JANUARY, 15), LocalDate.of(2026, Month.MARCH, 1), 30),
+            new CourseEntity(2, "Spring course", "A course about using Spring Boot", 2, LocalDate.of(2026, Month.MAY, 1), LocalDate.of(2026, Month.SEPTEMBER, 1), 50)
         ));
-        when(instructorRepository.findById(1L))
-                .thenReturn(new InstructorEntity(1L, "Alice", "Smith", "alice1@example.com"));
-        when(instructorRepository.findById(2L))
-                .thenReturn(new InstructorEntity(1L, "Bob", "Johnson", "bob2@example.com"));
+        when(instructorRepository.findById(1))
+                .thenReturn(new InstructorEntity(1, "Alice", "Smith", "alice1@example.com"));
+        when(instructorRepository.findById(2))
+                .thenReturn(new InstructorEntity(1, "Bob", "Johnson", "bob2@example.com"));
 
         var courses = courseService.getAllCourses();
 
         assertThat(courses)
                 .hasSize(2)
-                .contains(new CourseDto("Testing course", "A course about testing", "Alice Smith"))
-                .contains(new CourseDto("Spring course", "A course about using Spring Boot", "Bob Johnson"));
+                .contains(new CourseDto("Testing course", "A course about testing", "Alice Smith", LocalDate.of(2026, Month.JANUARY, 15), LocalDate.of(2026, Month.MARCH, 1), 30))
+                .contains(new CourseDto("Spring course", "A course about using Spring Boot", "Bob Johnson", LocalDate.of(2026, Month.MAY, 1), LocalDate.of(2026, Month.SEPTEMBER, 1), 50));
     }
 
     @Test
@@ -56,9 +56,9 @@ class CourseServiceTest {
         CourseService courseService = new CourseService(courseRepository, instructorRepository);
 
         when(courseRepository.findAll()).thenReturn(List.of(
-                new CourseEntity(1L, "Testing course", "A course about testing", 1L, LocalDate.of(2026, Month.JANUARY, 15), LocalDate.of(2026, Month.MARCH, 1))
+                new CourseEntity(1, "Testing course", "A course about testing", 1, LocalDate.of(2026, Month.JANUARY, 15), LocalDate.of(2026, Month.MARCH, 1), 30)
         ));
-        when(instructorRepository.findById(1L)).thenReturn(null);
+        when(instructorRepository.findById(1)).thenReturn(null);
 
         assertThatThrownBy(courseService::getAllCourses)
                 .hasMessage("Instructor with id 1 not found");

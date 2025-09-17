@@ -57,13 +57,13 @@ class CourseServiceIntegrationTest {
         courseRepository.insertCourse(
                 new CourseEntity(
                         null, "Test Course 1", "Description 1", instructor1.instructorId(),
-                        LocalDate.now(), LocalDate.now().plusDays(30)
+                        LocalDate.now(), LocalDate.now().plusDays(30), 30
                 ));
 
         courseRepository.insertCourse(
                 new CourseEntity(
                         null, "Test Course 2", "Description 2", instructor2.instructorId(),
-                        LocalDate.now(), LocalDate.now().plusDays(60)
+                        LocalDate.now(), LocalDate.now().plusDays(60), 50
                 ));
     }
 
@@ -75,12 +75,18 @@ class CourseServiceIntegrationTest {
                 .contains(new CourseDto(
                         "Test Course 1",
                         "Description 1",
-                        "Test Instructor 1"
+                        "Test Instructor 1",
+                        LocalDate.now(),
+                        LocalDate.now().plusDays(30),
+                        30
                 ))
                 .contains(new CourseDto(
                         "Test Course 2",
                         "Description 2",
-                        "Test Instructor 2"
+                        "Test Instructor 2",
+                        LocalDate.now(),
+                        LocalDate.now().plusDays(60),
+                        50
                 ));
     }
 }

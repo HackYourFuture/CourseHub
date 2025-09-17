@@ -1,6 +1,8 @@
 package net.hackyourfuture.coursehub;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.IntNode;
+import com.fasterxml.jackson.databind.node.TextNode;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -10,6 +12,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+import static io.micrometer.common.util.StringUtils.isNotEmpty;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -45,18 +48,23 @@ public class CourseControllerEndToEndTest {
 
             assertThat(response.body()).isNotNull();
             var jsonNode = objectMapper.readTree(response.body());
-            assertThat(jsonNode)
-                    .extracting(node -> node.get("courses"))
+            assertThat(jsonNode.get("courses"))
                     .isNotEmpty()
                     .anySatisfy(course -> {
                         assertThat(course.get("name").asText()).isEqualTo("Introduction to Calculus");
                         assertThat(course.get("description").asText()).isEqualTo("Fundamental concepts of calculus including limits, derivatives, and integrals.");
                         assertThat(course.get("instructor").asText()).isEqualTo("Alan Murray");
+                        assertThat(course.get("startDate").asText()).isEqualTo("2024-09-01");
+                        assertThat(course.get("endDate").asText()).isEqualTo("2024-12-15");
+                        assertThat(course.get("maxEnrollments").asInt()).isEqualTo(30);
                     })
                     .anySatisfy(course -> {
                         assertThat(course.get("name").asText()).isEqualTo("General Physics I");
                         assertThat(course.get("description").asText()).isEqualTo("Mechanics, motion, energy, and basic physical laws.");
                         assertThat(course.get("instructor").asText()).isEqualTo("Brenda Stone");
+                        assertThat(course.get("startDate").asText()).isEqualTo("2024-09-01");
+                        assertThat(course.get("endDate").asText()).isEqualTo("2024-12-15");
+                        assertThat(course.get("maxEnrollments").asInt()).isEqualTo(28);
                     });
         }
     }
