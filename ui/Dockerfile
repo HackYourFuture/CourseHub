@@ -13,4 +13,4 @@ COPY public/images /usr/share/nginx/html/images
 COPY nginx-entrypoint.sh /usr/local/bin/nginx-entrypoint.sh
 
 EXPOSE 80
-ENTRYPOINT ["nginx-entrypoint.sh"]
+CMD ["nginx-entrypoint.sh"]

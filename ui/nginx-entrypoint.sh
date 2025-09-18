@@ -5,4 +5,5 @@ window.__CONFIG__ = {
   backendUrl: "${BACKEND_URL}"
 };
 EOF
-nginx -g 'daemon off;'
+
+exec nginx -g 'daemon off;'
