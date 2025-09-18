@@ -1,11 +1,13 @@
 import {useEffect, useState} from 'react'
 import '../App.css'
+import type {Course} from '../types/Course';
+import {User} from "../types/User";
 import Header from '../components/Header'
-import { useConfig } from '../ConfigContext';
+import {useConfig} from '../ConfigContext';
 
-function HomePage() {
+function HomePage({user, setUser}: { user: User | null, setUser: (user: User | null) => void }) {
+    const [courses, setCourses] = useState<Course[]>([]);
     const { backendUrl } = useConfig();
-    const [courses, setCourses] = useState([])
 
     useEffect(() => {
         fetch(`${backendUrl}/courses`)
@@ -16,7 +18,7 @@ function HomePage() {
 
     return (
         <div className="min-h-screen bg-gray-50">
-            <Header/>
+            <Header user={user} setUser={setUser}/>
             <div className="max-w-5xl mx-auto mt-10 pb-5">
                 <h1 className="text-4xl font-extrabold mb-8 text-gray-800">All Courses</h1>
                 <div className="overflow-x-auto">
@@ -56,3 +58,5 @@ function HomePage() {
 }
 
 export default HomePage
+
+

@@ -1,6 +1,5 @@
 package net.hackyourfuture.coursehub;
 
-import net.hackyourfuture.coursehub.service.UserAuthenticationService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -9,7 +8,6 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -30,9 +28,13 @@ public class SecurityConfig {
                     config.addAllowedMethod("*");
                     return config;
                 }))
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/login", "/register")
+                .authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.POST, "/login", "/register")
+                        .permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS, "/login", "/register")
                         .permitAll()
                         .requestMatchers(HttpMethod.GET, "/courses")
+                        .permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS, "/courses")
                         .permitAll()
                         .anyRequest()
                         .authenticated())
@@ -42,11 +44,6 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public UserDetailsService userDetailsService(UserAuthenticationService userAuthenticationService) {
-        return userAuthenticationService;
     }
 
     @Bean

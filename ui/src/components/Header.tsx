@@ -1,6 +1,24 @@
-import {Link} from 'react-router'
+import {Link} from "react-router";
+import {User} from "../types/User";
 
-function Header() {
+function Header({user, setUser}: {
+    user: User | null;
+    setUser: (user: User | null) => void;
+}) {
+
+    const logout = async () => {
+        try {
+            await fetch("http://localhost:8080/logout", {
+                method: "POST",
+                credentials: "include",
+            });
+        } catch (e) {
+            // Optionally handle error
+        }
+        setUser(null);
+        localStorage.removeItem("user");
+    };
+
     return (
         <header className="bg-white shadow-md py-4 px-8 flex items-center justify-between">
             <div className="flex items-center gap-8">
@@ -12,14 +30,32 @@ function Header() {
                         Courses</Link>
                 </nav>
             </div>
-            <Link
-                to="/login"
-                className="bg-blue-600 text-white px-5 py-2 rounded-full font-semibold shadow hover:bg-blue-700 transition"
-            >
-                Log In
-            </Link>
+            <div>
+                {user ? (
+                    <div className="flex items-center gap-4">
+                        <span>
+                            {user.firstName} {user.lastName} ({user.role})
+                        </span>
+                        <button
+                            onClick={logout}
+                            className="bg-blue-600 text-white px-5 py-2 rounded-full font-semibold shadow hover:bg-blue-700 transition"
+                        >
+                            Log out
+                        </button>
+                    </div>
+                ) : (
+                    <Link
+                        to="/login"
+                        className="bg-blue-600 text-white px-5 py-2 rounded-full font-semibold shadow hover:bg-blue-700 transition"
+                    >
+                        Log In
+                    </Link>
+
+                )}
+            </div>
         </header>
     )
 }
 
 export default Header
+

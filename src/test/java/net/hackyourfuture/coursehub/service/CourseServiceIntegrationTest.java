@@ -68,22 +68,34 @@ class CourseServiceIntegrationTest {
 
     @Test
     void shouldReturnCourses() {
+        var allCourses = courseRepository.findAll();
+        var course1 = allCourses.stream()
+                .filter(c -> "Test Course 1".equals(c.name()))
+                .findFirst()
+                .orElseThrow();
+        var course2 = allCourses.stream()
+                .filter(c -> "Test Course 2".equals(c.name()))
+                .findFirst()
+                .orElseThrow();
+
         var courses = courseService.getAllCourses();
 
         assertThat(courses)
                 .contains(new CourseDto(
+                        course1.courseId(),
                         "Test Course 1",
                         "Description 1",
                         "Artur Havliukovskyi",
-                        LocalDate.now(),
-                        LocalDate.now().plusDays(30),
+                        course1.startDate(),
+                        course1.endDate(),
                         30))
                 .contains(new CourseDto(
+                        course2.courseId(),
                         "Test Course 2",
                         "Description 2",
                         "Breus Blaauwendraad",
-                        LocalDate.now(),
-                        LocalDate.now().plusDays(60),
+                        course2.startDate(),
+                        course2.endDate(),
                         50));
     }
 }

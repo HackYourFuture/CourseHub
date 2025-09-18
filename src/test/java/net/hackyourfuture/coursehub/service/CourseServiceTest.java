@@ -61,14 +61,14 @@ class CourseServiceTest {
 
         assertThat(courses)
                 .hasSize(2)
-                .contains(new CourseDto(
+                .contains(new CourseDto(1,
                         "Testing course",
                         "A course about testing",
                         "Alice Smith",
                         LocalDate.of(2026, Month.JANUARY, 15),
                         LocalDate.of(2026, Month.MARCH, 1),
                         30))
-                .contains(new CourseDto(
+                .contains(new CourseDto(2,
                         "Spring course",
                         "A course about using Spring Boot",
                         "Bob Johnson",

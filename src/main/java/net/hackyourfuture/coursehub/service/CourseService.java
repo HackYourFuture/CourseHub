@@ -27,7 +27,13 @@ public class CourseService {
                     }
                     String instructorName = instructor.firstName() + " " + instructor.lastName();
                     return new CourseDto(
-                            c.name(), c.description(), instructorName, c.startDate(), c.endDate(), c.maxEnrollments());
+                            c.courseId(),
+                            c.name(),
+                            c.description(),
+                            instructorName,
+                            c.startDate(),
+                            c.endDate(),
+                            c.maxEnrollments());
                 })
                 .toList();
     }

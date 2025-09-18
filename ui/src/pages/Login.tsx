@@ -1,51 +1,68 @@
 import "../App.css";
-import Header from "../components/Header";
 import {Link, useNavigate} from "react-router";
 import {useMutation} from "@tanstack/react-query";
 import React, {useState} from "react";
+import type {User} from "../types/User";
+import Header from "../components/Header";
 import { useConfig } from '../ConfigContext';
 
-async function loginRequest(credentials: { email: string; password: string }) {
+async function loginRequest(credentials: { emailAddress: string; password: string }) {
     const { backendUrl } = useConfig();
     try {
         const response = await fetch(`${backendUrl}/login`, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(credentials),
+            credentials: "include", // ensures cookies/session are sent
         });
 
-        if (!response.ok) {
-            const data = await response.json().catch(() => ({}));
-            throw new Error(data.message || "Login failed");
+        if (!response) {
+            throw new Error("Failed to login: Network error");
         }
 
-        return await response.json() as Promise<{ token: string }>;
-    } catch {
-        throw new Error("Network error");
+        if (!response.ok) {
+            let errorMessage = `Failed to login: ${response.status})`;
+            try {
+                const data = await response.json();
+                if (data && (data.errorMessage || data.message)) {
+                    errorMessage = data.errorMessage || data.message;
+                }
+            } catch {
+                // If the response is not JSON, keep the generic error message
+            }
+            throw new Error(errorMessage);
+        }
+        return await response.json() as User;
+    } catch (err: any) {
+        if (err instanceof TypeError) {
+            throw new Error("Network error");
+        }
+        throw err;
     }
 }
 
-export default function Login() {
+export default function Login({user, setUser}: { user: User | null, setUser: (user: User | null) => void }) {
     const [emailAddress, setEmailAddress] = useState("");
     const [password, setPassword] = useState("");
-    const navigate = useNavigate(); // ✅ moved inside component
+    const navigate = useNavigate();
 
     const {mutate, isPending, error} = useMutation({
         mutationFn: loginRequest,
-        onSuccess: (data) => {
-            localStorage.setItem("token", data.token);
-            navigate("/dashboard");
+        onSuccess: (userData) => {
+            localStorage.setItem("user", JSON.stringify(userData));
+            setUser(userData);
+            navigate("/");
         },
     });
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        mutate({email: emailAddress, password});
+        mutate({emailAddress, password});
     };
 
     return (
         <div className="min-h-screen bg-gray-50">
-            <Header/>
+            <Header user={user} setUser={setUser}/>
             <div className="flex justify-center items-center mt-16">
                 <div className="bg-white shadow-lg rounded-xl p-8 w-full max-w-md">
                     <h2 className="text-2xl font-bold text-center text-blue-600 mb-6">
