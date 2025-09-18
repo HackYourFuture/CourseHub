@@ -19,7 +19,7 @@ services:
     environment:
       BACKEND_URL: http://localhost:8080
     ports:
-      - "80:80"
+      - "5173:80"
   course-hub-backend:
     image: ghcr.io/hackyourfuture/course-hub-backend:latest
     container_name: course-hub

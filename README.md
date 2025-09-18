@@ -21,20 +21,6 @@ Make sure to have the following installed, for backend application:
 * Any IDE: We recommend [VSCode](https://code.visualstudio.com/download)
   or [IntelliJ IDEA](https://www.jetbrains.com/idea/download/?section=mac)
 
-### Running the frontend
-
-To install the required dependencies (only once), from the `ui` directory, run:
-
-```bash 
-    npm install
-```
-
-To run the frontend application locally, from the `ui` directory, run:
-
-```bash
-    npm run dev
-```
-
 ### Running the backend
 
 Starting all required dependencies for the CourseHub backend:
@@ -48,13 +34,31 @@ To run the backend application:
 * From Gradle: `./gradlew bootRun`
 * From IDE: Run the `CourseHubApplication` main class.
 
-Now you can access the CourseHub UI on `http://localhost` and the backend API on `http://localhost:8080`.
+Now you can access the CourseHub UI on `http://localhost:5173` and the backend API on `http://localhost:8080`.
 
 ### Making requests
 
 Without authentication, you can only access the public endpoints, for example:
 ```bash
 curl http://localhost:8080/courses
+```
+
+You can also see all available endpoints in the [OpenAPI documentation](http://localhost:8080/swagger/swagger-ui/index.html).
+
+### Running the frontend
+
+By default you get the the frontend running on `http://localhost:5173` from a docker compose, if you want to run it locally, follow the steps below.
+
+To install the required dependencies (only once), from the `ui` directory, run:
+
+```bash 
+npm install
+```
+
+To run the frontend application locally, from the `ui` directory, run:
+
+```bash
+npm run dev
 ```
 
 ### Building docker images
