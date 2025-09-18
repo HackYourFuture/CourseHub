@@ -16,8 +16,6 @@ services:
   course-hub-frontend:
     image: ghcr.io/hackyourfuture/course-hub-frontend:latest
     container_name: course-hub-frontend
-    profiles:
-      - include-frontend
     environment:
       BACKEND_URL: http://localhost:8080
     ports:

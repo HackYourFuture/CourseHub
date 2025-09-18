@@ -22,9 +22,11 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(request -> {
                     var config = new CorsConfiguration();
                     config.addAllowedOriginPattern("http://localhost");
+                    config.addAllowedOriginPattern("http://localhost:*");
                     config.addAllowedOriginPattern("https://coursehub.hyf.dev");
                     config.addAllowedHeader("*");
                     config.addAllowedMethod("*");
+                    config.setAllowCredentials(true);
                     return config;
                 }))
                 .authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.POST, "/login", "/register")

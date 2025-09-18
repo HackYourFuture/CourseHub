@@ -35,6 +35,12 @@ jobs:
           java-version: '21'
           cache: 'gradle'
 
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Set up docker compose environment
         run: docker compose up -d
 
