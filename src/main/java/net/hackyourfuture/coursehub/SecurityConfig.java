@@ -39,7 +39,7 @@ public class SecurityConfig {
                         .permitAll()
                         .requestMatchers(HttpMethod.POST, "/login", "/register")
                         .permitAll()
-                        .requestMatchers(HttpMethod.GET, "/courses", "/swagger/**")
+                        .requestMatchers(HttpMethod.GET, "/courses", "/swagger-ui/**", "/v3/api-docs/**")
                         .permitAll()
                         .requestMatchers("/students/**")
                         .hasRole("student")

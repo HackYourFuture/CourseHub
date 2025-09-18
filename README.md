@@ -43,7 +43,7 @@ Without authentication, you can only access the public endpoints, for example:
 curl http://localhost:8080/courses
 ```
 
-You can also see all available endpoints in the [OpenAPI documentation](http://localhost:8080/swagger/swagger-ui/index.html).
+You can also see all available endpoints in the [OpenAPI documentation](http://localhost:8080/swagger-ui/index.html).
 
 ### Running the frontend
 
