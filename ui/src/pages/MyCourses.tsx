@@ -13,7 +13,7 @@ function MyCourses({user}: { user: User | null }) {
     const {backendUrl} = useConfig();
 
     useEffect(() => {
-        fetch(`${backendUrl}/student/${user.userId}/courses`, {
+        fetch(`${backendUrl}/students/${user.userId}/courses`, {
             credentials: "include",
         }).then(res => res.json())
             .then(data => setCourses(data.courses))

@@ -29,13 +29,17 @@ public class SecurityConfig {
                     config.setAllowCredentials(true);
                     return config;
                 }))
-                .authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.POST, "/login", "/register")
+                .authorizeHttpRequests(auth -> auth
+                        // allow CORS pre-flight requests to any endpoint
+                        .requestMatchers(HttpMethod.OPTIONS, "/**")
                         .permitAll()
-                        .requestMatchers(HttpMethod.OPTIONS, "/login", "/register")
+                        // this is an internal mapping to display errors
+                        // allowing it without authentication so that errors are displayed correctly
+                        .requestMatchers("/error")
                         .permitAll()
-                        .requestMatchers(HttpMethod.GET, "/courses")
+                        .requestMatchers(HttpMethod.POST, "/login", "/register")
                         .permitAll()
-                        .requestMatchers(HttpMethod.OPTIONS, "/courses")
+                        .requestMatchers(HttpMethod.GET, "/courses", "/swagger/**")
                         .permitAll()
                         .requestMatchers("/students/**")
                         .hasRole("student")

@@ -1,7 +1,7 @@
 package net.hackyourfuture.coursehub.web;
 
 import jakarta.servlet.http.HttpServletRequest;
-import net.hackyourfuture.coursehub.repository.StudentRepository;
+import jakarta.servlet.http.HttpServletResponse;
 import net.hackyourfuture.coursehub.service.UserAuthenticationService;
 import net.hackyourfuture.coursehub.web.model.HttpErrorResponse;
 import net.hackyourfuture.coursehub.web.model.LoginRequest;
@@ -16,6 +16,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,21 +28,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserAuthenticationController {
     private final AuthenticationManager authenticationManager;
     private final UserAuthenticationService userAuthenticationService;
-    private final StudentRepository studentRepository;
+    private final SecurityContextRepository securityContextRepository = new HttpSessionSecurityContextRepository();
 
     public UserAuthenticationController(
             AuthenticationManager authenticationManager,
-            UserAuthenticationService userAuthenticationService,
-            StudentRepository studentRepository) {
+            UserAuthenticationService userAuthenticationService) {
         this.authenticationManager = authenticationManager;
         this.userAuthenticationService = userAuthenticationService;
-        this.studentRepository = studentRepository;
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Object> login(@RequestBody LoginRequest request, HttpServletRequest httpRequest) {
+    public ResponseEntity<Object> login(@RequestBody LoginRequest request, HttpServletRequest httpRequest, HttpServletResponse httpResponse) {
         try {
-            var response = authenticate(httpRequest, request.emailAddress(), request.password());
+            var response = authenticate(httpRequest, httpResponse, request.emailAddress(), request.password());
             return ResponseEntity.ok(response);
         } catch (AuthenticationException e) {
             if (e instanceof BadCredentialsException) {
@@ -64,7 +64,7 @@ public class UserAuthenticationController {
     }
 
     @PostMapping("/register")
-    public LoginSuccessResponse register(@RequestBody RegisterRequest request, HttpServletRequest httpRequest) {
+    public LoginSuccessResponse register(@RequestBody RegisterRequest request, HttpServletRequest httpRequest, HttpServletResponse httpResponse) {
         userAuthenticationService.register(
                 request.firstName(),
                 request.lastName(),
@@ -72,17 +72,21 @@ public class UserAuthenticationController {
                 request.password()
         );
 
-        return authenticate(httpRequest, request.emailAddress(), request.password());
+        return authenticate(httpRequest, httpResponse, request.emailAddress(), request.password());
     }
 
-    private LoginSuccessResponse authenticate(HttpServletRequest httpRequest, String email, String password) {
+    private LoginSuccessResponse authenticate(HttpServletRequest request, HttpServletResponse response, String email, String password) {
         // Authenticate the user with the provided credentials (email and password)
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(email, password));
+
+        SecurityContextHolder.clearContext();
+        var context = SecurityContextHolder.createEmptyContext();
+        context.setAuthentication(authentication);
+        SecurityContextHolder.setContext(context);
+
         // Save the authenticated user in the Spring security context
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        // Ensure a session is created for the authenticated user
-        httpRequest.getSession(true);
+        securityContextRepository.saveContext(context, request, response);
 
         // Retrieve the corresponding user data to return in a login response
         var authenticatedUser = userAuthenticationService.currentAuthenticatedUser();
