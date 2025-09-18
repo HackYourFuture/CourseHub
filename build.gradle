@@ -49,7 +49,7 @@ test {
         beforeTest { event -> println("Running test: ${event.displayName}") }
         afterTest { event, result -> println("Finished test: ${event.displayName} - ${result}") }
     }
-    jvmArgs.add("-javaagent:${configurations.mockitoAgent.asPath}")
+    jvmArgs += "-javaagent:${configurations.mockitoAgent.asPath}"
 }
 
 tasks.named("bootBuildImage") {
