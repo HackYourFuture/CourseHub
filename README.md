@@ -6,13 +6,13 @@ This application is used in HackYourFuture to showcase best practices in buildin
 students to implement parts. For example, in the frontend course students create their own frontend and in the backend
 course create their own backend in Java.
 
-## Getting started
+## Live demo
+
+You can access a live demo of CourseHub at: [https://coursehub.hyf.dev](https://coursehub.hyf.dev) and explore the OpenAPI specification at: [https://coursehub.hyf.dev/api/swagger-ui/index.html](https://coursehub.hyf.dev/api/swagger-ui/index.html).
+
+## Development
 
 ### Prerequisites
-
-Make sure to have the following installed, for the frontend application:
-
-* [Node.js 22 or later](https://nodejs.org/en/download)
 
 Make sure to have the following installed, for backend application:
 
@@ -20,6 +20,10 @@ Make sure to have the following installed, for backend application:
 * [Docker](https://www.docker.com/products/docker-desktop/)
 * Any IDE: We recommend [VSCode](https://code.visualstudio.com/download)
   or [IntelliJ IDEA](https://www.jetbrains.com/idea/download/?section=mac)
+
+Make sure to have the following installed, for the frontend application:
+
+* [Node.js 22 or later](https://nodejs.org/en/download)
 
 ### Running the backend
 
