@@ -19,7 +19,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write
     environment: coursehub.hyf.dev
     concurrency: coursehub.hyf.dev
     steps:
