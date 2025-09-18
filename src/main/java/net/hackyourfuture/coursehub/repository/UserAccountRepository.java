@@ -31,7 +31,7 @@ public class UserAccountRepository {
 
     @Nullable
     public UserAccountEntity findByEmailAddress(String emailAddress) {
-        String sql = "SELECT * FROM user_account WHERE email_address = :emailAddress";
+        String sql = "SELECT * FROM user_account WHERE lower(email_address) = lower(:emailAddress)";
         try {
             return jdbcTemplate.queryForObject(sql, Map.of("emailAddress", emailAddress), USER_ACCOUNT_ROW_MAPPER);
         } catch (EmptyResultDataAccessException e) {
@@ -60,7 +60,7 @@ public class UserAccountRepository {
 
     @Nullable
     public Integer findUserIdByEmail(String emailAddress) {
-        String sql = "SELECT user_id FROM user_account WHERE email_address = :emailAddress";
+        String sql = "SELECT user_id FROM user_account WHERE lower(email_address) = lower(:emailAddress)";
         try {
             return jdbcTemplate.queryForObject(sql, Map.of("emailAddress", emailAddress), Integer.class);
         } catch (EmptyResultDataAccessException e) {
