@@ -34,7 +34,7 @@ To run the backend application:
 * From Gradle: `./gradlew bootRun`
 * From IDE: Run the `CourseHubApplication` main class.
 
-Now you can access the CourseHub UI on `http://localhost:5173` and the backend API on `http://localhost:8080`.
+Now you can access the CourseHub UI on `http://localhost:80` and the backend API on `http://localhost:8080`.
 
 ### Making requests
 
@@ -47,7 +47,7 @@ You can also see all available endpoints in the [OpenAPI documentation](http://l
 
 ### Running the frontend
 
-By default you get the the frontend running on `http://localhost:5173` from a docker compose, if you want to run it locally, follow the steps below.
+By default you get the the frontend running on `http://localhost:80` from a docker compose, if you want to run it locally, follow the steps below.
 
 To install the required dependencies (only once), from the `ui` directory, run:
 
@@ -60,6 +60,8 @@ To run the frontend application locally, from the `ui` directory, run:
 ```bash
 npm run dev
 ```
+
+With this you can now access the CourseHub UI on `http://localhost:5173` in development mode.
 
 ### Building docker images
 
