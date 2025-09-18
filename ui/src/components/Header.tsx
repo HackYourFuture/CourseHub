@@ -33,9 +33,9 @@ function Header({user, setUser}: {
             <div>
                 {user ? (
                     <div className="flex items-center gap-4">
-                        <span>
-                            {user.firstName} {user.lastName} ({user.role})
-                        </span>
+            <span>
+                {user.firstName} {user.lastName} ({user.role})
+            </span>
                         <button
                             onClick={logout}
                             className="bg-blue-600 text-white px-5 py-2 rounded-full font-semibold shadow hover:bg-blue-700 transition"
@@ -44,13 +44,14 @@ function Header({user, setUser}: {
                         </button>
                     </div>
                 ) : (
-                    <Link
-                        to="/login"
-                        className="bg-blue-600 text-white px-5 py-2 rounded-full font-semibold shadow hover:bg-blue-700 transition"
-                    >
-                        Log In
-                    </Link>
-
+                    <div className="flex items-center gap-4">
+                        <Link
+                            to="/login"
+                            className="bg-blue-600 text-white px-5 py-2 rounded-full font-semibold shadow hover:bg-blue-700 transition"
+                        >
+                            Log In
+                        </Link>
+                    </div>
                 )}
             </div>
         </header>
