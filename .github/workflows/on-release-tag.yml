@@ -15,7 +15,7 @@ on:
         type: boolean
 
 jobs:
-  build-image:
+  build-course-hub-backend:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -53,13 +53,54 @@ jobs:
 
       - name: Build
         env:
-          DOCKER_PUSH: true
+          DOCKER_PUSH: ${{ github.repository == 'HackYourFuture/CourseHub' }}
         run: ./gradlew -Pversion=${{ steps.get-version.outputs.version }} bootBuildImage
+
+  build-course-hub-frontend:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: docker/setup-buildx-action@v3
+        with:
+          platforms: linux/amd64
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - id: get-version
+        run: |
+          # Determine version from tag or input
+          VERSION="${{ inputs.version || '' }}"
+          if [ -z "$VERSION" ]; then
+            VERSION="${GITHUB_REF_NAME#v}"
+          fi
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+
+      - name: Build and push Docker image
+        env:
+          DOCKER_PUSH: ${{ github.repository == 'HackYourFuture/CourseHub' }}
+        run: |
+          docker build \
+            --build-arg VERSION=${VERSION} \
+            -t ghcr.io/hackyourfuture/course-hub-frontend:${{ steps.get-version.outputs.version }} \
+            -t ghcr.io/hackyourfuture/course-hub-frontend:latest \
+            .
+          if [ "$DOCKER_PUSH" = "true" ]; then
+            docker push ghcr.io/hackyourfuture/course-hub-frontend:${{ steps.get-version.outputs.version }}
+            docker push ghcr.io/hackyourfuture/course-hub-frontend:latest
+          fi
 
   deploy:
     # do not execute on forks
     if: ${{ github.repository == 'HackYourFuture/CourseHub' && inputs.deploy }}
-    needs: build-image
+    needs: [build-course-hub-backend, build-course-hub-frontend]
     permissions:
       contents: read
     uses: ./.github/workflows/deploy-to-digital-ocean.yml

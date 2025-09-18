@@ -3,10 +3,12 @@ import Header from "../components/Header";
 import {Link, useNavigate} from "react-router";
 import {useMutation} from "@tanstack/react-query";
 import React, {useState} from "react";
+import { useConfig } from '../ConfigContext';
 
 async function loginRequest(credentials: { email: string; password: string }) {
+    const { backendUrl } = useConfig();
     try {
-        const response = await fetch("http://localhost:8080/login", {
+        const response = await fetch(`${backendUrl}/login`, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(credentials),

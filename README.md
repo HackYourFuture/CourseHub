@@ -52,11 +52,15 @@ To run the backend application:
 
 The application is accessible on `http://localhost:8080`.
 
-### Building docker image
+### Building docker images
 
-To build a Docker image of the application, run the following command:
+To build a Docker image of the course-hub backend, run the following command:
 ```bash
 ./gradlew bootBuildImage
+```
+To build a Docker image for the frontend, from the `ui` directory, run:
+```bash
+docker build -t ghcr.io/hackyourfuture/course-hub-frontend ui
 ```
 
 #### Running docker image

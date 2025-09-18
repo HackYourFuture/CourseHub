@@ -1,12 +1,14 @@
 import {useEffect, useState} from 'react'
 import '../App.css'
 import Header from '../components/Header'
+import { useConfig } from '../ConfigContext';
 
 function HomePage() {
+    const { backendUrl } = useConfig();
     const [courses, setCourses] = useState([])
 
     useEffect(() => {
-        fetch('http://localhost:8080/courses')
+        fetch(`${backendUrl}/courses`)
             .then(res => res.json())
             .then(data => setCourses(data.courses))
             .catch(err => console.error('Error fetching courses:', err))
