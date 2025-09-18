@@ -37,7 +37,7 @@ To run the frontend application locally, from the `ui` directory, run:
 
 ### Running the backend
 
-Starting Postgres database container:
+Starting all required dependencies for the CourseHub backend:
 
 ```bash
 docker compose up -d
@@ -48,9 +48,14 @@ To run the backend application:
 * From Gradle: `./gradlew bootRun`
 * From IDE: Run the `CourseHubApplication` main class.
 
+Now you can access the CourseHub UI on `http://localhost` and the backend API on `http://localhost:8080`.
+
 ### Making requests
 
-The application is accessible on `http://localhost:8080`.
+Without authentication, you can only access the public endpoints, for example:
+```bash
+curl http://localhost:8080/courses
+```
 
 ### Building docker images
 
