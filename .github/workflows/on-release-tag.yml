@@ -99,7 +99,7 @@ jobs:
 
   deploy:
     # do not execute on forks
-    if: ${{ github.repository == 'HackYourFuture/CourseHub' && inputs.deploy }}
+    if: ${{ github.repository == 'HackYourFuture/CourseHub' && (github.event_name == 'push' || inputs.deploy) }}
     needs: [build-course-hub-backend, build-course-hub-frontend]
     permissions:
       contents: read
