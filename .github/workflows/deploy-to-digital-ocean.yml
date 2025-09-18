@@ -25,7 +25,8 @@ jobs:
     - name: Deploy coursehub
       uses: digitalocean/app_action/deploy@v2
       env:
-        IMAGE_TAG_COURSE_HUB: ${{ inputs.version }}
+        IMAGE_TAG_COURSE_HUB_BACKEND: ${{ inputs.version }}
+        IMAGE_TAG_COURSE_HUB_FRONTEND: ${{ inputs.version }}
       with:
         app_name: coursehub
         token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
