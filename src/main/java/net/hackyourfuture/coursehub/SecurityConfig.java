@@ -37,6 +37,8 @@ public class SecurityConfig {
                         .permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/courses")
                         .permitAll()
+                        .requestMatchers("/students/**")
+                        .hasRole("student")
                         .anyRequest()
                         .authenticated())
                 .build();

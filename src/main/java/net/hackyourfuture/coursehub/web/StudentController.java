@@ -1,8 +1,10 @@
 package net.hackyourfuture.coursehub.web;
 
+import jakarta.validation.constraints.Positive;
 import net.hackyourfuture.coursehub.service.CourseService;
 import net.hackyourfuture.coursehub.web.model.CourseDto;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +21,7 @@ public class StudentController {
     }
 
     @GetMapping("/{studentId}/courses")
-    public List<CourseDto> getCoursesForStudent(Integer studentId) {
+    public List<CourseDto> getCoursesForStudent(@PathVariable(value = "studentId") @Positive Integer studentId) {
         return courseService.getCoursesForStudent(studentId);
     }
 }

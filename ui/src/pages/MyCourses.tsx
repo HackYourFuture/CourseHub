@@ -17,7 +17,7 @@ function MyCourses({user}: { user: User | null }) {
             credentials: "include",
         }).then(res => res.json())
             .then(data => setCourses(data.courses))
-            .catch(err => console.error('Error fetching courses:', err))
+            .catch(err => console.error("Error fetching My Courses:", err))
     }, [])
 
     return (
@@ -40,7 +40,7 @@ function MyCourses({user}: { user: User | null }) {
                     <tbody>
                     {courses.map((course, idx) => (
                         <tr
-                            key={course.courseId}
+                            key={course.id}
                             className={`border-t transition ${idx % 2 === 0 ? 'bg-gray-50' : 'bg-white'} hover:bg-blue-50`}
                         >
                             <td className="px-6 py-4 text-gray-700">{course.name}</td>
@@ -59,5 +59,3 @@ function MyCourses({user}: { user: User | null }) {
 }
 
 export default MyCourses
-
-
