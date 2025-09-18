@@ -1,7 +1,6 @@
 package net.hackyourfuture.coursehub.web;
 
 import jakarta.servlet.http.HttpServletRequest;
-import net.hackyourfuture.coursehub.repository.InstructorRepository;
 import net.hackyourfuture.coursehub.repository.StudentRepository;
 import net.hackyourfuture.coursehub.service.UserAuthenticationService;
 import net.hackyourfuture.coursehub.web.model.HttpErrorResponse;
@@ -88,11 +87,11 @@ public class UserAuthenticationController {
         // Retrieve the corresponding user data to return in a login response
         var authenticatedUser = userAuthenticationService.currentAuthenticatedUser();
         return new LoginSuccessResponse(
-                authenticatedUser.userId(),
-                authenticatedUser.firstName(),
-                authenticatedUser.lastName(),
-                authenticatedUser.emailAddress(),
-                authenticatedUser.role()
+                authenticatedUser.getUserId(),
+                authenticatedUser.getFirstName(),
+                authenticatedUser.getLastName(),
+                authenticatedUser.getEmailAddress(),
+                authenticatedUser.getRole()
         );
     }
 }

@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {createBrowserRouter, RouterProvider} from 'react-router';
 import AllCourses from './pages/AllCourses';
 import Login from './pages/Login';
+import Register from './pages/Register';
 import type {User} from './types/User';
 import Layout from "./components/PageLayout";
 import MyCourses from "./pages/MyCourses";
@@ -28,7 +29,8 @@ function App() {
         children: [
             {path: '/', element: <AllCourses/>},
             {path: '/my-courses', element: <MyCourses user={user}/>},
-            {path: '/login', element: <Login setUser={setUser}/>}
+            {path: '/login', element: <Login setUser={setUser}/>},
+            {path: '/register', element: <Register setUser={setUser}/>}
         ]
     }]);
 

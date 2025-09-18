@@ -10,6 +10,7 @@ import net.hackyourfuture.coursehub.repository.UserAccountRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,15 +18,18 @@ public class UserAuthenticationService implements UserDetailsService {
     private final UserAccountRepository userAccountRepository;
     private final StudentRepository studentRepository;
     private final InstructorRepository instructorRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public UserAuthenticationService(
             UserAccountRepository userAccountRepository,
             StudentRepository studentRepository,
-            InstructorRepository instructorRepository
+            InstructorRepository instructorRepository,
+            PasswordEncoder passwordEncoder
     ) {
         this.userAccountRepository = userAccountRepository;
         this.studentRepository = studentRepository;
         this.instructorRepository = instructorRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -38,11 +42,11 @@ public class UserAuthenticationService implements UserDetailsService {
         return switch (user.role()) {
             case student -> {
                 StudentEntity student = studentRepository.findById(user.userId());
-                yield new AuthenticatedUser(user.userId(), student.firstName(), student.lastName(), user.emailAddress(), user.role());
+                yield new AuthenticatedUser(user.userId(), student.firstName(), student.lastName(), user.emailAddress(), user.passwordHash(), user.role());
             }
             case instructor -> {
                 InstructorEntity instructor = instructorRepository.findById(user.userId());
-                yield new AuthenticatedUser(user.userId(), instructor.firstName(), instructor.lastName(), user.emailAddress(), user.role());
+                yield new AuthenticatedUser(user.userId(), instructor.firstName(), instructor.lastName(), user.emailAddress(), user.passwordHash(), user.role());
             }
         };
     }
@@ -62,6 +66,7 @@ public class UserAuthenticationService implements UserDetailsService {
         // For simplicity, we will register every new user as a student
         // In a real-world application, you might want to allow registering as an instructor as well
         // and have an admin approve instructor accounts before they can log in
-        studentRepository.insertStudent(firstName, lastName, emailAddress, password);
+        var passwordHash = passwordEncoder.encode(password);
+        studentRepository.insertStudent(firstName, lastName, emailAddress, passwordHash);
     }
 }
