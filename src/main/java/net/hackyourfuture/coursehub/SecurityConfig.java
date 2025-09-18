@@ -21,8 +21,7 @@ public class SecurityConfig {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(request -> {
                     var config = new CorsConfiguration();
-                    config.addAllowedOriginPattern("http://localhost:8080");
-                    config.addAllowedOriginPattern("http://host.docker.internal:8080");
+                    config.addAllowedOriginPattern("http://localhost");
                     config.addAllowedOriginPattern("https://coursehub.hyf.dev");
                     config.addAllowedHeader("*");
                     config.addAllowedMethod("*");
