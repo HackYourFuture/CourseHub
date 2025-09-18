@@ -30,6 +30,12 @@ public class CourseRepository {
         return jdbcTemplate.query(sql, COURSE_ROW_MAPPER);
     }
 
+    public List<CourseEntity> findAllByStudentId(Integer studentId) {
+        String sql =
+                "SELECT * FROM course c JOIN enrollment e ON c.course_id = e.course_id WHERE e.student_id = :studentId";
+        return jdbcTemplate.query(sql, Map.of("studentId", studentId), COURSE_ROW_MAPPER);
+    }
+
     public CourseEntity findByCourseId(Long courseId) {
         String sql = "SELECT * FROM course WHERE course_id = :courseId";
         return jdbcTemplate.queryForObject(sql, Map.of("courseId", courseId), COURSE_ROW_MAPPER);

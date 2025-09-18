@@ -3,7 +3,7 @@ package net.hackyourfuture.coursehub.web.model;
 import java.time.LocalDate;
 
 public record CourseDto(
-        Integer courseId,
+        Integer id,
         String name,
         String description,
         String instructor,

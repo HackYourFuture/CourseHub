@@ -1,7 +1,6 @@
 package net.hackyourfuture.coursehub.service;
 
 import net.hackyourfuture.coursehub.data.CourseEntity;
-import net.hackyourfuture.coursehub.data.InstructorEntity;
 import net.hackyourfuture.coursehub.repository.CourseRepository;
 import net.hackyourfuture.coursehub.repository.InstructorRepository;
 import net.hackyourfuture.coursehub.web.model.CourseDto;
@@ -31,9 +30,12 @@ class CourseServiceTest {
     @Mock
     private InstructorRepository instructorRepository;
 
+    @Mock
+    private InstructorService instructorService;
+
     @Test
     void shouldReturnCoursesWithInstructorNames() {
-        CourseService courseService = new CourseService(courseRepository, instructorRepository);
+        CourseService courseService = new CourseService(courseRepository, instructorService);
 
         when(courseRepository.findAll())
                 .thenReturn(List.of(
@@ -53,22 +55,23 @@ class CourseServiceTest {
                                 LocalDate.of(2026, Month.MAY, 1),
                                 LocalDate.of(2026, Month.SEPTEMBER, 1),
                                 50)));
-        when(instructorRepository.findById(1))
-                .thenReturn(new InstructorEntity(1, "Alice", "Smith", "alice@example.com"));
-        when(instructorRepository.findById(2)).thenReturn(new InstructorEntity(2, "Bob", "Johnson", "bob@example.com"));
+        when(instructorService.getFullInstructorName(1)).thenReturn("Alice Smith");
+        when(instructorService.getFullInstructorName(2)).thenReturn("Bob Johnson");
 
         var courses = courseService.getAllCourses();
 
         assertThat(courses)
                 .hasSize(2)
-                .contains(new CourseDto(1,
+                .contains(new CourseDto(
+                        1,
                         "Testing course",
                         "A course about testing",
                         "Alice Smith",
                         LocalDate.of(2026, Month.JANUARY, 15),
                         LocalDate.of(2026, Month.MARCH, 1),
                         30))
-                .contains(new CourseDto(2,
+                .contains(new CourseDto(
+                        2,
                         "Spring course",
                         "A course about using Spring Boot",
                         "Bob Johnson",
@@ -78,26 +81,8 @@ class CourseServiceTest {
     }
 
     @Test
-    void shouldFailIfCourseExistsWithoutAnInstructor() {
-        CourseService courseService = new CourseService(courseRepository, instructorRepository);
-
-        when(courseRepository.findAll())
-                .thenReturn(List.of(new CourseEntity(
-                        1,
-                        "Testing course",
-                        "A course about testing",
-                        1,
-                        LocalDate.of(2026, Month.JANUARY, 15),
-                        LocalDate.of(2026, Month.MARCH, 1),
-                        30)));
-        when(instructorRepository.findById(1)).thenReturn(null);
-
-        assertThatThrownBy(courseService::getAllCourses).hasMessage("Instructor with id 1 not found");
-    }
-
-    @Test
     void shouldFailIfRepositoryThrowsException() {
-        CourseService courseService = new CourseService(courseRepository, instructorRepository);
+        CourseService courseService = new CourseService(courseRepository, instructorService);
 
         when(courseRepository.findAll()).thenThrow(new RuntimeException("Database is down"));
 

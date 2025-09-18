@@ -1,41 +1,38 @@
 import React, {useEffect, useState} from "react";
-import {createBrowserRouter, RouterProvider} from 'react-router'
-import HomePage from './pages/HomePage'
-import Login from './pages/Login'
+import {createBrowserRouter, RouterProvider} from 'react-router';
+import AllCourses from './pages/AllCourses';
+import Login from './pages/Login';
 import type {User} from './types/User';
 import Layout from "./components/PageLayout";
+import MyCourses from "./pages/MyCourses";
 
 function App() {
-    const [user, setUser] = useState<User | null>(null);
-
-    const router = createBrowserRouter([
-            {
-                element: <Layout user={user} setUser={setUser}/>,
-                children: [
-                    {
-                        path: '/',
-                        element: <HomePage user={user} setUser={setUser}/>
-                    },
-                    {
-                        path: '/login',
-                        element: <Login user={user} setUser={setUser}/>
-                    }]
-            }
-
-        ])
-    ;
+    const [user, setUser] = useState<User | null | undefined>(undefined);
 
     useEffect(() => {
-        // Try to load user from localStorage on app start
         const storedUser = localStorage.getItem("user");
         if (storedUser) {
             setUser(JSON.parse(storedUser));
+        } else {
+            setUser(null);
+            localStorage.removeItem("user");
         }
     }, []);
 
-    return (
-        <RouterProvider router={router}/>
-    );
+    if (user === undefined) {
+        return null; // Wait for user to be loaded before rendering
+    }
+
+    const router = createBrowserRouter([{
+        element: <Layout user={user} setUser={setUser}/>,
+        children: [
+            {path: '/', element: <AllCourses/>},
+            {path: '/my-courses', element: <MyCourses user={user}/>},
+            {path: '/login', element: <Login setUser={setUser}/>}
+        ]
+    }]);
+
+    return <RouterProvider router={router}/>;
 }
 
 export default App;

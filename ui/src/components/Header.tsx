@@ -26,8 +26,11 @@ function Header({user, setUser}: {
                       className="text-2xl font-bold text-blue-600 hover:text-blue-800 transition">CourseHub</Link>
                 <nav className="flex gap-6">
                     <Link to="/" className="text-gray-700 font-medium hover:text-blue-600 transition">All Courses</Link>
-                    <Link to="/my-courses" className="text-gray-700 font-medium hover:text-blue-600 transition">My
-                        Courses</Link>
+                    {user && (
+                        <Link to="/my-courses" className="text-gray-700 font-medium hover:text-blue-600 transition">
+                            My Courses
+                        </Link>
+                    )}
                 </nav>
             </div>
             <div>

@@ -39,7 +39,7 @@ async function loginRequest(credentials: { emailAddress: string; password: strin
     }
 }
 
-export default function Login({setUser}: { user: User | null, setUser: (user: User | null) => void }) {
+export default function Login({setUser}: { setUser: (user: User | null) => void }) {
     const [emailAddress, setEmailAddress] = useState("");
     const [password, setPassword] = useState("");
     const {backendUrl} = useConfig();
