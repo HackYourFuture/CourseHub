@@ -8,6 +8,11 @@ on:
       version:
         description: 'Version to release (must start with "v")'
         required: true
+      deploy:
+        description: 'Deploy to DigitalOcean'
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   build-image:
@@ -15,11 +20,8 @@ jobs:
     permissions:
       contents: read
       packages: write
-      attestations: write
-      id-token: write
     outputs:
-      digest: ${{ steps.push.outputs.digest }}
-      tags: ${{ steps.meta.outputs.tags }}
+      version: ${{ steps.get-version.outputs.version }}
     steps:
       - uses: actions/checkout@v5
 
@@ -40,14 +42,27 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build
-        env:
-          DOCKER_PUSH: true
+      - id: get-version
         run: |
           # Determine version from tag or input
-          VERSION="${{ github.event.inputs.version || '' }}"
+          VERSION="${{ inputs.version || '' }}"
           if [ -z "$VERSION" ]; then
             VERSION="${GITHUB_REF_NAME#v}"
           fi
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
 
-          ./gradlew -Pversion=$VERSION bootBuildImage
+      - name: Build
+        env:
+          DOCKER_PUSH: true
+        run: ./gradlew -Pversion=${{ steps.get-version.outputs.version }} bootBuildImage
+
+  deploy:
+    # do not execute on forks
+    if: ${{ github.repository == 'HackYourFuture/CourseHub' && inputs.deploy }}
+    needs: build-image
+    permissions:
+      contents: read
+    uses: ./.github/workflows/deploy-to-digital-ocean.yml
+    secrets: inherit
+    with:
+      version: ${{ needs.build-image.outputs.version }}
