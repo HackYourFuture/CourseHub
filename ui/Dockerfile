@@ -10,6 +10,7 @@ RUN npm run build
 FROM nginx:alpine
 COPY --from=builder /app/dist /usr/share/nginx/html
 COPY public/images /usr/share/nginx/html/images
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY nginx-entrypoint.sh /usr/local/bin/nginx-entrypoint.sh
 
 EXPOSE 80
