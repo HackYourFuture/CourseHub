@@ -10,15 +10,53 @@ function MyCourses({user}: { user: User | null }) {
         return <Navigate to="/login" replace/>;
     }
     const [courses, setCourses] = useState<Course[]>([]);
+    const [error, setError] = useState<string | null>(null);
     const {backendUrl} = useConfig();
 
     useEffect(() => {
-        fetch(`${backendUrl}/students/${user.userId}/courses`, {
-            credentials: "include",
-        }).then(res => res.json())
-            .then(data => setCourses(data.courses))
-            .catch(err => console.error("Error fetching My Courses:", err))
-    }, [])
+        if (!user) {
+            setError("No user authenticated to find courses for");
+            return;
+        }
+        const fetchCourses = async () => {
+            try {
+                const res = await fetch(`${backendUrl}/students/${user.userId}/courses`, {
+                    credentials: "include",
+                });
+                if (!res.ok) {
+                    setError("Error while loading courses");
+                    setCourses([]);
+                } else {
+                    const data = await res.json();
+                    setCourses(Array.isArray(data.courses) ? data.courses : []);
+                    setError(null);
+                }
+            } catch (err) {
+                console.error("Error fetching My Courses:", err);
+                setError("Error while loading courses");
+                setCourses([]);
+            }
+        };
+        fetchCourses();
+    }, [backendUrl, user]);
+
+    if (error) {
+        return (
+            <div className="max-w-5xl mx-auto mt-10 pb-5">
+                <h1 className="text-4xl font-extrabold mb-8 text-gray-800">My Courses</h1>
+                <div className="text-lg text-gray-600">{error}</div>
+            </div>
+        );
+    }
+
+    if (courses.length === 0) {
+        return (
+            <div className="max-w-5xl mx-auto mt-10 pb-5">
+                <h1 className="text-4xl font-extrabold mb-8 text-gray-800">My Courses</h1>
+                <div className="text-lg text-gray-600"> You are not enrolled in any courses yet.</div>
+            </div>
+        );
+    }
 
     return (
         <div className="max-w-5xl mx-auto mt-10 pb-5">
