@@ -25,18 +25,28 @@ configurations {
 }
 
 dependencies {
+    // jdbc stands for Java Database Connectivity and is used to connect and execute queries with the database
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.flywaydb:flyway-core:11.13.0'
-    implementation 'org.flywaydb:flyway-database-postgresql:11.13.0'
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.13'
-
+    // As the database we use PostgreSQL, so we need the PostgreSQL driver to connect to the database
     runtimeOnly 'org.postgresql:postgresql'
-
+    // Spring security is used to handle user authentication and authorization
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    // Spring Data Redis is used to interact with Redis, which we use as a key value database to store user sessions
+    implementation("org.springframework.session:spring-session-data-redis")
+    // Validation starter is used to validate user input
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    // Web starter is used to build our web APIs (HTTP endpoints)
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    // Flyway is used to manage database migrations and to fill the database with initial data
+    implementation 'org.flywaydb:flyway-core:11.13.0'
+    // We need the PostgreSQL specific Flyway dependency to run the migrations on a PostgreSQL database
+    implementation 'org.flywaydb:flyway-database-postgresql:11.13.0'
+    // OpenAPI starter is used to generate and display API documentation
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.13'
+    // Devtools provides fast application restarts, LiveReload, and configurations for enhanced development experience
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
+    // Testing dependencies
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     mockitoAgent('org.mockito:mockito-core') {
