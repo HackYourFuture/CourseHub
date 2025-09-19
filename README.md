@@ -90,3 +90,4 @@ docker compose --profile include-course-hub up
 Keep in mind that containers will keep running in the background even after you stop the application. To stop and remove the containers, run:
 ```bash
 docker compose --profile include-course-hub down -v
+```
