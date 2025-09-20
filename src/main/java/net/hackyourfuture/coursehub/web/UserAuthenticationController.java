@@ -38,7 +38,8 @@ public class UserAuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Object> login(@RequestBody LoginRequest request, HttpServletRequest httpRequest, HttpServletResponse httpResponse) {
+    public ResponseEntity<Object> login(
+            @RequestBody LoginRequest request, HttpServletRequest httpRequest, HttpServletResponse httpResponse) {
         try {
             var response = authenticate(httpRequest, httpResponse, request.emailAddress(), request.password());
             return ResponseEntity.ok(response);
@@ -59,7 +60,10 @@ public class UserAuthenticationController {
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpServletRequest httpRequest) {
         SecurityContextHolder.clearContext();
-        httpRequest.getSession().invalidate();
+        var session = httpRequest.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
         return ResponseEntity.ok().build();
     }
 

@@ -29,6 +29,10 @@ public class SecurityConfig {
                     config.setAllowCredentials(true);
                     return config;
                 }))
+                // Disable the default logout endpoint as we implemented our own
+                .logout(AbstractHttpConfigurer::disable)
+                // Disable the default login (form) endpoint as we implemented our own
+                .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         // allow CORS pre-flight requests to any endpoint
                         .requestMatchers(HttpMethod.OPTIONS, "/**")
@@ -37,7 +41,7 @@ public class SecurityConfig {
                         // allowing it without authentication so that errors are displayed correctly
                         .requestMatchers("/error")
                         .permitAll()
-                        .requestMatchers(HttpMethod.POST, "/login", "/register")
+                        .requestMatchers(HttpMethod.POST, "/login", "/logout", "/register")
                         .permitAll()
                         .requestMatchers(HttpMethod.GET, "/courses", "/swagger-ui/**", "/v3/api-docs/**")
                         .permitAll()
