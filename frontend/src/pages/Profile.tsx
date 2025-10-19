@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
-import { User } from '../types/User';
-import { Navigate } from 'react-router';
+import React, {useState} from 'react';
+import {User} from '../types/User';
+import {Navigate} from 'react-router';
+import {useConfig} from '../ConfigContext';
 
 function Profile({ user }: { user: User | null }) {
   const [apiKey, setApiKey] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const {backendUrl} = useConfig();
 
   if (!user) {
     return <Navigate to="/login" />;
@@ -16,27 +18,20 @@ function Profile({ user }: { user: User | null }) {
     setError(null);
 
     try {
-      // TODO: Replace with actual backend endpoint when implemented
-      // This is a placeholder that simulates API key generation
-      setTimeout(() => {
-        // Mock API key (in production this would come from the backend)
-        const mockApiKey = `key_${Math.random().toString(36).substring(2, 15)}`;
-        setApiKey(mockApiKey);
-        setIsGenerating(false);
-      }, 1000);
+      const response = await fetch(`${backendUrl}/generate-api-key`, {
+        method: 'POST',
+        credentials: 'include',
+      });
 
-      // Actual API call would look like:
-      // const response = await fetch('http://localhost:8080/api/users/generate-api-key', {
-      //   method: 'POST',
-      //   credentials: 'include',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   }
-      // });
-      // const data = await response.json();
-      // setApiKey(data.apiKey);
+      if (!response.ok) {
+        throw new Error('Failed to generate API key');
+      }
+
+      const data = await response.json();
+      setApiKey(data.apiKey);
     } catch (err) {
       setError('Failed to generate API key. Please try again later.');
+    } finally {
       setIsGenerating(false);
     }
   };

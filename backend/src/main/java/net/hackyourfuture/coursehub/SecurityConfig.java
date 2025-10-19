@@ -1,5 +1,7 @@
 package net.hackyourfuture.coursehub;
 
+import net.hackyourfuture.coursehub.security.ApiKeyAuthenticationFilter;
+import net.hackyourfuture.coursehub.service.UserAuthenticationService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -11,13 +13,14 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, UserAuthenticationService userAuthenticationService) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(request -> {
                     var config = new CorsConfiguration();
@@ -49,6 +52,7 @@ public class SecurityConfig {
                         .hasRole("student")
                         .anyRequest()
                         .authenticated())
+                .addFilterBefore(apiKeyAuthenticationFilter(userAuthenticationService), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
@@ -61,5 +65,10 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
             throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
+    }
+
+    @Bean
+    public ApiKeyAuthenticationFilter apiKeyAuthenticationFilter(UserAuthenticationService userAuthenticationService) {
+        return new ApiKeyAuthenticationFilter(userAuthenticationService);
     }
 }

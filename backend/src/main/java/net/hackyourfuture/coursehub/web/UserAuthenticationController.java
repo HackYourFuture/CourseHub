@@ -3,6 +3,7 @@ package net.hackyourfuture.coursehub.web;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import net.hackyourfuture.coursehub.service.UserAuthenticationService;
+import net.hackyourfuture.coursehub.web.model.ApiKeyResponse;
 import net.hackyourfuture.coursehub.web.model.HttpErrorResponse;
 import net.hackyourfuture.coursehub.web.model.LoginRequest;
 import net.hackyourfuture.coursehub.web.model.LoginSuccessResponse;
@@ -75,8 +76,19 @@ public class UserAuthenticationController {
                 request.emailAddress(),
                 request.password()
         );
-
+        // Authenticate the user and return the response
         return authenticate(httpRequest, httpResponse, request.emailAddress(), request.password());
+    }
+
+    @PostMapping("/generate-api-key")
+    public ResponseEntity<Object> generateApiKey() {
+        try {
+            String apiKey = userAuthenticationService.generateApiKey();
+            return ResponseEntity.ok(new ApiKeyResponse(apiKey));
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new HttpErrorResponse("Unable to generate API key"));
+        }
     }
 
     private LoginSuccessResponse authenticate(HttpServletRequest request, HttpServletResponse response, String email, String password) {
