@@ -13,5 +13,5 @@ COPY public/images /usr/share/nginx/html/images
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY nginx-entrypoint.sh /usr/local/bin/nginx-entrypoint.sh
 
-EXPOSE 80
+EXPOSE 3000
 CMD ["nginx-entrypoint.sh"]
