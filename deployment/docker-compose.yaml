@@ -44,7 +44,7 @@ services:
     container_name: course-hub-frontend
     restart: on-failure
     environment:
-      BACKEND_URL: https://coursehub.hyf.dev/api
+      BACKEND_URL: http://159.223.215.103/api
     ports:
       - "3000:3000"
   course-hub-backend:
