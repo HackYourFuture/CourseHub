@@ -17,7 +17,8 @@ public class UserAccountRepository {
             rs.getInt("user_id"),
             rs.getString("email_address"),
             rs.getString("password_hash"),
-            Role.valueOf(rs.getString("role")));
+            Role.valueOf(rs.getString("role")),
+            rs.getString("api_key"));
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public UserAccountRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -48,7 +49,7 @@ public class UserAccountRepository {
         }
         String userSql = "INSERT INTO user_account (email_address, password_hash, role) "
                 + "VALUES (:emailAddress, :passwordHash, :role::role) "
-                + "RETURNING user_id, email_address, password_hash, role";
+                + "RETURNING user_id, email_address, password_hash, role, api_key";
         return jdbcTemplate.queryForObject(
                 userSql,
                 Map.of(
@@ -63,6 +64,39 @@ public class UserAccountRepository {
         String sql = "SELECT user_id FROM user_account WHERE lower(email_address) = lower(:emailAddress)";
         try {
             return jdbcTemplate.queryForObject(sql, Map.of("emailAddress", emailAddress), Integer.class);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+    /**
+     * Stores the given API key for the user with the given ID.
+     *
+     * @param userId the user ID
+     * @param apiKey the API key to store
+     * @return the updated UserAccountEntity
+     */
+    @Transactional
+    public UserAccountEntity updateApiKey(Integer userId, String apiKey) {
+        String sql = "UPDATE user_account SET api_key = :apiKey WHERE user_id = :userId " +
+                     "RETURNING user_id, email_address, password_hash, role, api_key";
+        return jdbcTemplate.queryForObject(
+                sql,
+                Map.of("userId", userId, "apiKey", apiKey),
+                USER_ACCOUNT_ROW_MAPPER);
+    }
+
+    /**
+     * Finds a user by API key.
+     *
+     * @param apiKey the API key
+     * @return the UserAccountEntity, or null if not found
+     */
+    @Nullable
+    public UserAccountEntity findByApiKey(String apiKey) {
+        String sql = "SELECT * FROM user_account WHERE api_key = :apiKey";
+        try {
+            return jdbcTemplate.queryForObject(sql, Map.of("apiKey", apiKey), USER_ACCOUNT_ROW_MAPPER);
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
