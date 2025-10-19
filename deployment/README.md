@@ -13,3 +13,21 @@ cd /opt/course-hub
 docker compose down
 docker compose up -d
 ```
+
+### Operations
+
+SSH into the server:
+```bash
+ssh user@server
+cd /opt/course-hub
+```
+
+Docker status
+```bash
+docker stats
+```
+
+Checking logs:
+```bash
+docker compose logs -f <container-name>
+```
