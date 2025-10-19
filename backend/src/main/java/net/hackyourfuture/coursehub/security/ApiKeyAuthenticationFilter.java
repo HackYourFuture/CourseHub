@@ -15,7 +15,7 @@ import java.io.IOException;
 public class ApiKeyAuthenticationFilter extends OncePerRequestFilter {
 
     private final UserAuthenticationService userAuthenticationService;
-    private static final String API_KEY_HEADER = "X-API-Key";
+    private static final String AUTHORIZATION_HEADER_KEY = "Authorization";
 
     public ApiKeyAuthenticationFilter(UserAuthenticationService userAuthenticationService) {
         this.userAuthenticationService = userAuthenticationService;
@@ -34,7 +34,7 @@ public class ApiKeyAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        String apiKey = request.getHeader(API_KEY_HEADER);
+        String apiKey = request.getHeader(AUTHORIZATION_HEADER_KEY);
 
         if (apiKey != null && !apiKey.isEmpty()) {
             // Look up user by API key
