@@ -36,12 +36,12 @@ Starting all required dependencies for the CourseHub backend:
 docker compose up -d
 ```
 
-To run the backend application:
+To run the backend application, you can either:
 
-* From Gradle: `./gradlew bootRun`
-* From IDE: Run the `CourseHubApplication` main class.
+* From the `backend` directory, run `./gradlew bootRun` in the terminal to us Gradle CLI
+* Run the `CourseHubApplication` main class from your IDE.
 
-Now you can access the CourseHub UI on `http://localhost:80` and the backend API on `http://localhost:8080`.
+Now you can access the CourseHub frontend UI on `http://localhost:80` and the backend API on `http://localhost:8080`.
 
 ### Making requests
 
@@ -55,22 +55,22 @@ You can also see all available endpoints in the [OpenAPI documentation](http://l
 
 ### Running the frontend
 
-By default you get the the frontend running on `http://localhost:80` from a docker compose, if you want to run it
+By default, the frontend will be running on `http://localhost:80` from Docker compose. If you want to run it
 locally, follow the steps below.
 
-To install the required dependencies (only once), from the `ui` directory, run:
+To install the required dependencies (only once), from the `frontend` directory, run:
 
 ```bash 
 npm install
 ```
 
-To run the frontend application locally, from the `ui` directory, run:
+To run the frontend application locally, from the `frontend` directory, run:
 
 ```bash
 npm run dev
 ```
 
-With this you can now access the CourseHub UI on `http://localhost:5173` in development mode.
+Now you can access the CourseHub frontend UI on `http://localhost:5173` in development mode.
 
 ### Building docker images
 
@@ -80,10 +80,10 @@ To build a Docker image of the course-hub backend, run the following command:
 ./gradlew bootBuildImage
 ```
 
-To build a Docker image for the frontend, from the `ui` directory, run:
+To build a Docker image for the frontend, from the `frontend` directory, run:
 
 ```bash
-docker build -t ghcr.io/hackyourfuture/course-hub-frontend ui
+docker build -t ghcr.io/hackyourfuture/course-hub-frontend frontend
 ```
 
 #### Running docker image

@@ -5,13 +5,19 @@ on:
       - main
     tags-ignore:
       - '*'
+    paths:
+      - 'backend/**'
+      - '.github/workflows/build.yml'
   pull_request:
     branches:
       - main
+    paths:
+      - 'backend/**'
+      - '.github/workflows/build.yml'
   workflow_dispatch:
 
 concurrency:
-  # On main, we don't want any jobs cancelled so the sha is used to name the group
+  # On main, we don't want any jobs cancelled, so the SHA hash is used to name the group
   # On PR branches, we cancel the job if new commits are pushed
   # More info: https://stackoverflow.com/a/68422069/253468
   group: ${{ (github.ref == 'refs/heads/main') && format('{0}-{1}', github.workflow_ref, github.sha) || format('{0}-{1}', github.workflow_ref, github.head_ref) }}
@@ -23,6 +29,9 @@ jobs:
       contents: read
       checks: write # for publishing test results and annotations
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
     steps:
       - uses: actions/checkout@v5
         with:
@@ -51,4 +60,4 @@ jobs:
         uses: mikepenz/action-junit-report@v5
         if: ${{ !cancelled() }} # always run even if the previous step fails
         with:
-          report_paths: '**/build/test-results/test/TEST-*.xml'
+          report_paths: '**/backend/build/test-results/test/TEST-*.xml'
