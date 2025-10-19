@@ -90,7 +90,7 @@ public class UserAuthenticationService implements UserDetailsService {
         try {
             SecureRandom.getInstanceStrong().nextBytes(randomBytes);
         } catch (NoSuchAlgorithmException e) {
-            throw new IllegalStateException("Unable to generate an authentication token", e);
+            throw new IllegalStateException("Unable to generate an API key", e);
         }
         String apiKey = "chub_" + Base64.getUrlEncoder().withoutPadding().encodeToString(randomBytes);
 
