@@ -38,10 +38,14 @@ docker compose up -d
 
 To run the backend application, you can either:
 
-* From the `backend` directory, run `./gradlew bootRun` in the terminal to us Gradle CLI
+* Start application from the terminal:
+  ```bash
+  cd backend
+  ./gradlew bootRun
+  ```
 * Run the `CourseHubApplication` main class from your IDE.
 
-Now you can access the CourseHub frontend UI on `http://localhost:80` and the backend API on `http://localhost:8080`.
+Now you can access the CourseHub frontend UI on `http://localhost:3000` and the backend API on `http://localhost:8080`.
 
 ### Making requests
 
@@ -55,18 +59,18 @@ You can also see all available endpoints in the [OpenAPI documentation](http://l
 
 ### Running the frontend
 
-By default, the frontend will be running on `http://localhost:80` from Docker compose. If you want to run it
+By default, the frontend will be running on `http://localhost:3000` from Docker compose. If you want to run it
 locally, follow the steps below.
 
 To install the required dependencies (only once), from the `frontend` directory, run:
-
-```bash 
+```bash
+cd frontend
 npm install
 ```
 
 To run the frontend application locally, from the `frontend` directory, run:
-
 ```bash
+cd frontend
 npm run dev
 ```
 
@@ -74,16 +78,16 @@ Now you can access the CourseHub frontend UI on `http://localhost:5173` in devel
 
 ### Building docker images
 
-To build a Docker image of the course-hub backend, run the following command:
-
+To build a Docker image of the course-hub backend, from the `backend` directory, run:
 ```bash
+cd backend
 ./gradlew bootBuildImage
 ```
 
 To build a Docker image for the frontend, from the `frontend` directory, run:
-
 ```bash
-docker build -t ghcr.io/hackyourfuture/course-hub-frontend frontend
+cd frontend
+docker build -t ghcr.io/hackyourfuture/course-hub-frontend .
 ```
 
 #### Running docker image
@@ -92,7 +96,7 @@ After the image is built, you can run it using a special Docker Compose profile 
 you're running it from Gradle or IDE)_:
 
 ```bash
-docker compose --profile include-course-hub up
+docker compose up -d
 ```
 
 ### Cleanup
@@ -101,5 +105,5 @@ Keep in mind that containers will keep running in the background even after you 
 the containers, run:
 
 ```bash
-docker compose --profile include-course-hub down -v
+docker compose down -v
 ```

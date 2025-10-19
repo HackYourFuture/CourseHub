@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: postgres:17
+    image: postgres:18
     container_name: postgres
     environment:
       POSTGRES_USER: course_user
@@ -19,17 +19,5 @@ services:
     environment:
       BACKEND_URL: http://localhost:8080
     ports:
-      - "80:80"
-  course-hub-backend:
-    image: ghcr.io/hackyourfuture/course-hub-backend:latest
-    container_name: course-hub
-    profiles:
-      - include-course-hub
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/coursehub
-    depends_on:
-      postgres:
-        condition: service_started
-    ports:
-      - "8080:8080"
+      - "3000:3000"
 

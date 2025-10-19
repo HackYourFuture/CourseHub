@@ -99,14 +99,3 @@ jobs:
             docker push ghcr.io/hackyourfuture/course-hub-frontend:${{ steps.get-version.outputs.version }}
             docker push ghcr.io/hackyourfuture/course-hub-frontend:latest
           fi
-
-  deploy:
-    # do not execute on forks
-    if: ${{ github.repository == 'HackYourFuture/CourseHub' && (github.event_name == 'push' || inputs.deploy) }}
-    needs: [build-course-hub-backend, build-course-hub-frontend]
-    permissions:
-      contents: read
-    uses: ./.github/workflows/deploy-to-digital-ocean.yml
-    secrets: inherit
-    with:
-      version: ${{ needs.build-course-hub-backend.outputs.version }}
