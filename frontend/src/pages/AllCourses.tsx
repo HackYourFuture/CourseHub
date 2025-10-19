@@ -16,7 +16,7 @@ function AllCourses() {
 
     return (
         <div className="max-w-5xl mx-auto mt-10 pb-5">
-            <h1 className="text-4xl font-extrabold mb-8 text-gray-800">All Courses</h1>
+            <h1 className="text-3xl font-extrabold mb-8 text-gray-800">All Courses</h1>
             <div className="overflow-x-auto">
                 <table className="table-auto min-w-full bg-white shadow-xl border border-gray-100">
                     <thead>
