@@ -36,9 +36,11 @@ function Header({user, setUser}: {
             <div>
                 {user ? (
                     <div className="flex items-center gap-4">
-            <span>
-                {user.firstName} {user.lastName} ({user.role})
-            </span>
+                        <Link to="/profile" className="underline hover:text-blue-600 transition">
+                            <span>
+                                {user.firstName} {user.lastName} ({user.role})
+                            </span>
+                        </Link>
                         <button
                             onClick={logout}
                             className="bg-blue-600 text-white px-5 py-2 rounded-full font-semibold shadow hover:bg-blue-700 transition"
@@ -62,4 +64,3 @@ function Header({user, setUser}: {
 }
 
 export default Header
-

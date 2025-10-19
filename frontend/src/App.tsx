@@ -6,6 +6,7 @@ import Register from './pages/Register';
 import type {User} from './types/User';
 import Layout from "./components/PageLayout";
 import MyCourses from "./pages/MyCourses";
+import Profile from "./pages/Profile";
 
 function App() {
     const [user, setUser] = useState<User | null | undefined>(undefined);
@@ -30,7 +31,8 @@ function App() {
             {path: '/', element: <AllCourses/>},
             {path: '/my-courses', element: <MyCourses user={user}/>},
             {path: '/login', element: <Login setUser={setUser}/>},
-            {path: '/register', element: <Register setUser={setUser}/>}
+            {path: '/register', element: <Register setUser={setUser}/>},
+            {path: '/profile', element: <Profile user={user}/>}
         ]
     }]);
 
