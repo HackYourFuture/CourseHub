@@ -5,16 +5,23 @@ services:
   nginx:
     image: nginx:latest
     container_name: nginx
+    restart: on-failure
     ports:
       - "443:443"
       - "80:80"
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
       - ./certificates:/etc/nginx/certificates
+    depends_on:
+      course-hub-backend:
+        condition: service_started
+      course-hub-frontend:
+        condition: service_started
   # Postgres, main data store used by course-hub-backend
   postgres:
     image: postgres:18
     container_name: postgres
+    restart: on-failure
     environment:
       POSTGRES_USER: course_user
       POSTGRES_PASSWORD: course_user_password
@@ -27,6 +34,7 @@ services:
   redis:
     image: redis:7
     container_name: redis
+    restart: on-failure
     volumes:
       - redis:/data
     ports:
@@ -34,6 +42,7 @@ services:
   course-hub-frontend:
     image: ghcr.io/hackyourfuture/course-hub-frontend:latest
     container_name: course-hub-frontend
+    restart: on-failure
     environment:
       BACKEND_URL: http://localhost/api
     ports:
@@ -41,11 +50,13 @@ services:
   course-hub-backend:
     image: ghcr.io/hackyourfuture/course-hub-backend:latest
     container_name: course-hub-backend
+    restart: on-failure
     environment:
-      JVM_TOOL_OPTS: -XX:ReservedCodeCacheSize=80M
+      JVM_TOOL_OPTS: -XX:ReservedCodeCacheSize=120M
       BPL_JVM_THREAD_COUNT: 20
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/coursehub
       SPRING_DATA_REDIS_HOST: redis
+      OPEN_API_SUFFIX: /api
     depends_on:
       postgres:
         condition: service_started
@@ -56,6 +67,8 @@ services:
   # Agent that monitors whenever new versions of images are published and recreates the containers
   watchtower:
     image: containrrr/watchtower
+    container_name: watchtower
+    restart: on-failure
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --interval 30

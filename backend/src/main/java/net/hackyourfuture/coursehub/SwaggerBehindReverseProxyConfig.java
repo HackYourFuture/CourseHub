@@ -1,6 +1,7 @@
 package net.hackyourfuture.coursehub;
 
 import org.springdoc.core.customizers.ServerBaseUrlCustomizer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,13 +11,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SwaggerBehindReverseProxyConfig {
 
+    @Value("${open-api.suffix:#{environment.OPEN_API_SUFFIX}}")
+    private String openApiSuffix;
+
     @Bean
     ServerBaseUrlCustomizer serverBaseUrlCustomizer() {
-        return (serverBaseUrl, request) -> {
-            if (serverBaseUrl.contains("coursehub.hyf.dev")) {
-                return serverBaseUrl + "/api";
-            }
-            return serverBaseUrl;
-        };
+        return (serverBaseUrl, request) -> serverBaseUrl + openApiSuffix;
     }
 }
