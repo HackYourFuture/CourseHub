@@ -64,6 +64,9 @@ jobs:
     permissions:
       contents: read
       packages: write
+    defaults:
+      run:
+        working-directory: ./frontend
     steps:
       - uses: actions/checkout@v5
 
@@ -94,7 +97,7 @@ jobs:
             --build-arg VERSION=${VERSION} \
             -t ghcr.io/hackyourfuture/course-hub-frontend:${{ steps.get-version.outputs.version }} \
             -t ghcr.io/hackyourfuture/course-hub-frontend:latest \
-            frontend
+            .
           if [ "$DOCKER_PUSH" = "true" ]; then
             docker push ghcr.io/hackyourfuture/course-hub-frontend:${{ steps.get-version.outputs.version }}
             docker push ghcr.io/hackyourfuture/course-hub-frontend:latest

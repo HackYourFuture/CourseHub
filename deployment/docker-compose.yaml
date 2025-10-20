@@ -17,7 +17,7 @@ services:
         condition: service_started
       course-hub-frontend:
         condition: service_started
-  
+
   # Postgres, main data store used by course-hub-backend
   postgres:
     image: postgres:18
@@ -31,7 +31,7 @@ services:
       - postgres:/var/lib/postgresql
     ports:
       - "5432:5432"
-  
+
   # Redis, auth session storage used by course-hub-backend
   redis:
     image: redis:7
@@ -46,23 +46,22 @@ services:
     restart: on-failure
     environment:
       BACKEND_URL: https://coursehub.hyf.dev/api
-  
+
   course-hub-backend:
     image: ghcr.io/hackyourfuture/course-hub-backend:latest
     container_name: course-hub-backend
     restart: on-failure
     environment:
-      JVM_TOOL_OPTS: -XX:ReservedCodeCacheSize=120M
+      JAVA_OPTS: -XX:ReservedCodeCacheSize=120M
       BPL_JVM_THREAD_COUNT: 20
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/coursehub
       SPRING_DATA_REDIS_HOST: redis
-      OPEN_API_SUFFIX: /api
     depends_on:
       postgres:
         condition: service_started
       redis:
         condition: service_started
-  
+
   # Agent that monitors whenever new versions of images are published and recreates the containers
   watchtower:
     image: containrrr/watchtower
