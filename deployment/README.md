@@ -22,7 +22,7 @@ ssh user@server
 cd /opt/course-hub
 ```
 
-Docker status
+Docker status:
 ```bash
 docker stats
 ```
