@@ -52,7 +52,7 @@ function MyCourses({user}: { user: User | null }) {
     if (courses.length === 0) {
         return (
             <div className="max-w-5xl mx-auto mt-10 pb-5">
-            <h1 className="text-3xl font-extrabold mb-8 text-gray-800">My Courses</h1>i
+            <h1 className="text-3xl font-extrabold mb-8 text-gray-800">My Courses</h1>
                 <div className="text-lg text-gray-600"> You are not enrolled in any courses yet.</div>
             </div>
         );
